@@ -10,19 +10,20 @@ public class ArrayGame {
         System.out.println("\n\n\n\n");
         Scanner scan = new Scanner(System.in);
         Random rand1 = new Random();
-        char[][] map = new char[21][41];
+        char[][] map = new char[21][21];
         int x = 10;
-        int y = 20;
+        int y = 10;
         int ex = rand1.nextInt(20);
-        int ey = rand1.nextInt(40);
+        int ey = rand1.nextInt(20);
         int cx = rand1.nextInt(20);
-        int cy = rand1.nextInt(40);
+        int cy = rand1.nextInt(20);
         int trapx = rand1.nextInt(20);
-        int trapy = rand1.nextInt(40);
+        int trapy = rand1.nextInt(20);
         int trap1x = rand1.nextInt(20);
-        int trap1y = rand1.nextInt(40);
+        int trap1y = rand1.nextInt(20);
         String direction;
         boolean play = true;
+        boolean enemyAlive = true;
         String player = x + "," + y;
         String trap1 = trapx + "," + trapy;
         String trap2 = trap1x + "," + trap1y;
@@ -30,13 +31,13 @@ public class ArrayGame {
         String enemy = ex + "," + ey;
         while (player.equals(trap1) || player.equals(trap2) || player.equals(chest) || player.equals(enemy) || trap1.equals(trap2) || trap1.equals(chest) || trap1.equals(enemy) || trap2.equals(enemy) || trap2.equals(chest) || enemy.equals(chest)) {
             trapx = rand1.nextInt(20);
-            trapy = rand1.nextInt(40);
+            trapy = rand1.nextInt(20);
             trap1x = rand1.nextInt(20);
-            trap1y = rand1.nextInt(40);
+            trap1y = rand1.nextInt(20);
             ex = rand1.nextInt(20);
-            ey = rand1.nextInt(40);
+            ey = rand1.nextInt(20);
             cx = rand1.nextInt(20);
-            cy = rand1.nextInt(40);
+            cy = rand1.nextInt(20);
         }
         while (play) {
             map[x][y] = '@';
@@ -47,27 +48,29 @@ public class ArrayGame {
             map[trap1x][trap1y] = '*';
             //}
             //if(ex < 10 + x && ey < x + 10){
+            if (enemyAlive) {
             map[ex][ey] = 'E';
+            }
             //}
             //if (cx < 10 + x && cy < x + 10) {
             map[cx][cy] = 'T';
             //}
             for (int i = 0; i <= map[0].length - 1; i++) {
                 for (int j = 0; j <= map[1].length - 1; j++) {
-                    if (i == 0 || j == 0 || i == 20 || j == 40) {
+                    if (i == 0 || j == 0 || i == 20 || j == 20) {
                         map[i][j] = '█';
                     }
                     if (j < map[1].length - 1 /*&& (j < 10 + y || j > x - 10) && (i < 10 + x || i > y - 10)*/) {
                         if (map[i][j] != '@' && map[i][j] != '*' && map[i][j] != 'E' && map[i][j] != 'T' && map[i][j] != '█') {
-                            System.out.print(".");
+                            System.out.print(". ");
                         } else {
-                            System.out.print(map[i][j] + "");
+                            System.out.print(map[i][j] + " ");
                         }
                     } else {
                         if (map[i][j] != '@' && map[i][j] != '█'/*&& (j < 10 + y || j > x - 10) && (i < 10 + x || i > y - 10)*/) {
                             System.out.println(".");
                         } else {
-                            System.out.println(map[i][j] + "");
+                            System.out.println(map[i][j] + " ");
                         }
                     }
                 }
@@ -139,27 +142,17 @@ public class ArrayGame {
                 ey -= 1;
             }
             
-            
-            
             player = x + "," + y;
             trap1 = trapx + "," + trapy;
             trap2 = trap1x + "," + trap1y;
             chest = cx + "," + cy;
             enemy = ex + "," + ey;
-            if (player.equals(trap1) || player.equals(trap2)) {
-                System.out.println("You jumped into a trap. GAME OVER");
-                play = false;
-            }else if (player.equals(enemy)) {
-                System.out.println("You got roughed up by a bad dude. GAME OVER");
-                play = false;
-            }else if (player.equals(chest)) {
-                System.out.println("You win. Congratulations!");
-                play = false;
-//            map[ex][ey] = '.';
-//            map[trapx][trapy] = '.';
-//            map[trap1x][trap1y] = '.';
-//            map[cx][cy] = '.';
+            
+            if (enemy.equals(trap1) || enemy.equals(trap2)) {
+                enemyAlive = false;
             }
+            
+            checkIfOver(play, player, trap1, trap2, enemy, chest, enemyAlive);
         }
     }
     static void go() {
@@ -177,4 +170,37 @@ public class ArrayGame {
             }
         }
     }
+    
+    static void checkIfOver(boolean a, String b, String c, String d, String e, String f, boolean g) {
+        if (b.equals(c) || b.equals(d)) {
+                System.out.println("You jumped into a trap.");
+                System.out.println("__   __            _                   \n" +
+"\\ \\ / /__  _   _  | |    ___  ___  ___ \n" +
+" \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n" +
+"  | | (_) | |_| | | |__| (_) \\__ \\  __/\n" +
+"  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
+                a = false;
+            }else if (b.equals(e) && g) {
+                System.out.println("You got roughed up by a bad dude.");
+                System.out.println("__   __            _                   \n" +
+"\\ \\ / /__  _   _  | |    ___  ___  ___ \n" +
+" \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n" +
+"  | | (_) | |_| | | |__| (_) \\__ \\  __/\n" +
+"  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
+                a = false;
+            }else if (b.equals(f)) {
+                System.out.println("You win. Congratulations!");
+                System.out.println("__   __           __        ___       \n" +
+"\\ \\ / /__  _   _  \\ \\      / (_)_ __  \n" +
+" \\ V / _ \\| | | |  \\ \\ /\\ / /| | '_ \\ \n" +
+"  | | (_) | |_| |   \\ V  V / | | | | |\n" +
+"  |_|\\___/ \\__,_|    \\_/\\_/  |_|_| |_|\n" +
+"                                      \n" +
+"\n" +
+"");
+                a = false;
+                
+            }
+    }
+    
 }
