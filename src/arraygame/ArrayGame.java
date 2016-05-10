@@ -34,6 +34,9 @@ public class ArrayGame {
         boolean play = true;
         boolean enemyAlive = true;
         boolean enemyAlive1 = true;
+        boolean chestAlive = true;
+        boolean chestAlive1 = true;
+        int score = 0;
         String player = x + "," + y;
         String trap1 = trapx + "," + trapy;
         String trap2 = trap1x + "," + trap1y;
@@ -65,8 +68,12 @@ public class ArrayGame {
             if (enemyAlive1) {
                 map[ex1][ey1] = 'P';
             }
+            if (chestAlive) {
             map[cx][cy] = 'T';
+            }
+            if (chestAlive1) {
             map[cx1][cy1] = 'T';
+            }
             for (int i = 0; i <= map[0].length - 1; i++) {
                 for (int j = 0; j <= map[1].length - 1; j++) {
                     if (i == 0 || j == 0 || i == 20 || j == 20) {
@@ -156,7 +163,16 @@ public class ArrayGame {
             if (enemy1.equals(trap1) || enemy1.equals(trap2)) {
                 enemyAlive1 = false;
             }
-            play = checkIfOver(player, trap1, trap2, enemy, chest, enemyAlive, enemy1, enemyAlive1, chest1);
+            if (player.equals(chest) && chestAlive) {
+                score += 10;
+                chestAlive = false;
+            }
+            if (player.equals(chest1) && chestAlive1) {
+                score += 10;
+                chestAlive1 = false;
+            }
+            System.out.println("Score = " + score);
+            play = checkIfOver(player, trap1, trap2, enemy, chest, enemyAlive, enemy1, enemyAlive1, chest1, score);
         }
     }
 
@@ -164,7 +180,7 @@ public class ArrayGame {
         Scanner scan1 = new Scanner(System.in);
         boolean playagain = true;
         String ans;
-        System.out.println("Here is a game I like to call Array Evade. \n Basically, You are being chased around by pirates (noted by P) who are out for \n your head. However, if you get to some treasure (T) before they get you, you \n will win. You might also want to watch out for traps (*)");
+        System.out.println("Here is a game I like to call Array Evade. \n Basically, You are being chased around by pirates (noted by P) who are out for \n your head. However, if you get to all of the treasure (T) before they get you, you \n will win. You might also want to watch out for traps (*)");
         try {
             Thread.sleep(10000);
         } catch (InterruptedException ex) {
@@ -182,7 +198,7 @@ public class ArrayGame {
         }
     }
 
-    static boolean checkIfOver(String b /*player*/, String c/*trap1*/, String d/*trap2*/, String e/*enemy*/, String f/*chest*/, boolean g/*enemyAlive*/, String h/*enemy1*/, boolean i/*enemyAlive1*/, String j/*chest1*/) {
+    static boolean checkIfOver(String b /*player*/, String c/*trap1*/, String d/*trap2*/, String e/*enemy*/, String f/*chest*/, boolean g/*enemyAlive*/, String h/*enemy1*/, boolean i/*enemyAlive1*/, String j/*chest1*/, int k /*score*/) {
         if (b.equals(c) || b.equals(d)) {
             System.out.println("You jumped into a trap.");
             System.out.println("__   __            _                   \n"
@@ -199,7 +215,7 @@ public class ArrayGame {
                     + "  | | (_) | |_| | | |__| (_) \\__ \\  __/\n"
                     + "  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
             return false;
-        } else if (b.equals(f) || b.equals(j)) {
+        } else if (k == 20) {
             System.out.println("You win. Congratulations!");
             System.out.println("__   __           __        ___       \n"
                     + "\\ \\ / /__  _   _  \\ \\      / (_)_ __  \n"
