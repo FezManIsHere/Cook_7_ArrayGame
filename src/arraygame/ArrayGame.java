@@ -69,10 +69,10 @@ public class ArrayGame {
                 map[ex1][ey1] = 'P';
             }
             if (chestAlive) {
-            map[cx][cy] = 'T';
+                map[cx][cy] = 'T';
             }
             if (chestAlive1) {
-            map[cx1][cy1] = 'T';
+                map[cx1][cy1] = 'T';
             }
             for (int i = 0; i <= map[0].length - 1; i++) {
                 for (int j = 0; j <= map[1].length - 1; j++) {
