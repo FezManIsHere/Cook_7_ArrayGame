@@ -11,6 +11,17 @@ package arraygame;
  */
 public class BossEnemy {
 
-    
-    
+    int x = 0;
+    int y = 0;
+    int health = 100;
+    boolean isAlive;
+    int experience = 0;
+    char symbol = 'B';
+
+    BossEnemy(boolean a, int b, int c, char d) {
+        this.isAlive = a;
+        this.x = b;
+        this.y = c;
+        this.symbol = d;
+    }
 }
