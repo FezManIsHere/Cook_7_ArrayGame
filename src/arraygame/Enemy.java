@@ -17,7 +17,7 @@ public class Enemy {
     boolean isAlive;
     int experience = 0;
     char symbol = 'P';
-
+    String coordinates;
     Enemy(boolean a, int b, int c, char d) {
         this.isAlive = a;
         this.x = b;

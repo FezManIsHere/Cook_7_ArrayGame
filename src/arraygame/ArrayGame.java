@@ -10,7 +10,7 @@ public class ArrayGame {
     public static void main(String[] args) {
         go();
     }
-    
+    static Random rand1 = new Random();
     static Player player;
     static Enemy e1, e2, e3;
     static String direction;
@@ -24,15 +24,22 @@ public class ArrayGame {
     static String trap2;
     static String chest;
     static String chest1;
-    static String enemy;
-    static String enemy1;
     static Enemy[] enemies = {e1, e2, e3};
+    static int cx = rand1.nextInt(39) + 1;
+    static int cy = rand1.nextInt(39) + 1;
+    static int cx1 = rand1.nextInt(39) + 1;
+    static int cy1 = rand1.nextInt(39) + 1;
+    static int trapx = rand1.nextInt(39) + 1;
+    static int trapy = rand1.nextInt(39) + 1;
+    static int trap1x = rand1.nextInt(39) + 1;
+    static int trap1y = rand1.nextInt(39) + 1;
+    static char[][] map = new char[41][41];
+        
     
     static void game() {
         System.out.println("\n\n\n\n");
         Scanner scan = new Scanner(System.in);
         Random rand1 = new Random();
-        char[][] map = new char[41][41];
         player = new Player("Hero",20,20,'@', 0);
         
         
@@ -41,27 +48,14 @@ public class ArrayGame {
         }
         
         
-        int ex = rand1.nextInt(39) + 1;
-        int ey = rand1.nextInt(39) + 1;
-        int ex1 = rand1.nextInt(39) + 1;
-        int ey1 = rand1.nextInt(39) + 1;
-        int cx = rand1.nextInt(39) + 1;
-        int cy = rand1.nextInt(39) + 1;
-        int cx1 = rand1.nextInt(39) + 1;
-        int cy1 = rand1.nextInt(39) + 1;
-        int trapx = rand1.nextInt(39) + 1;
-        int trapy = rand1.nextInt(39) + 1;
-        int trap1x = rand1.nextInt(39) + 1;
-        int trap1y = rand1.nextInt(39) + 1;
         while (play) {
             map[player.x][player.y] = '@';
             map[trapx][trapy] = '*';
             map[trap1x][trap1y] = '*';
-            if (enemyAlive) {
-                map[ex][ey] = 'P';
-            }
-            if (enemyAlive1) {
-                map[ex1][ey1] = 'P';
+            for (Enemy enemie : enemies) {
+                if (enemie.isAlive) {
+                    map[enemie.x][enemie.y] = enemie.symbol;
+                }
             }
             if (chestAlive) {
                 map[cx][cy] = 'T';
@@ -120,44 +114,12 @@ public class ArrayGame {
                 player.y = 19;
             }
 
-            map[ex][ey] = '.';
-            if (ex < player.x) {
-                ex += 1;
-            } else if (ex > player.x) {
-                ex -= 1;
-            }
-            if (ey < player.y) {
-                ey += 1;
-            } else if (ey > player.y) {
-                ey -= 1;
-            }
+            moveEnemy();
 
-            map[ex1][ey1] = '.';
-            if (ex1 < player.x) {
-                ex1 += 1;
-            } else if (ex1 > player.x) {
-                ex1 -= 1;
-            }
-            if (ey1 < player.y) {
-                ey1 += 1;
-            } else if (ey1 > player.y) {
-                ey1 -= 1;
-            }
-
-            playercoords = player.x + "," + player.y;
-            trap1 = trapx + "," + trapy;
-            trap2 = trap1x + "," + trap1y;
-            chest = cx + "," + cy;
-            chest1 = cx1 + "," + cy1;
-            enemy1 = ex1 + "," + ey1;
-            enemy = ex + "," + ey;
-
-            if (enemy.equals(trap1) || enemy.equals(trap2)) {
-                enemyAlive = false;
-            }
-            if (enemy1.equals(trap1) || enemy1.equals(trap2)) {
-                enemyAlive1 = false;
-            }
+            setCoords();
+            
+            checkEnemyTrap(trap1,trap2);
+            
             if (playercoords.equals(chest) && chestAlive) {
                 player.score += 10;
                 chestAlive = false;
@@ -168,7 +130,10 @@ public class ArrayGame {
             }
             System.out.println("Score = " + player.score);
             if (play) {
-            play = checkIfOver(playercoords, trap1, trap2, enemy, chest, enemyAlive, enemy1, enemyAlive1, chest1, player.score);
+            play = checkIfOver(playercoords, trap1, trap2, chest, chest1, player.score);
+            }
+            if (play) {
+                play = checkEnemy(playercoords);
             }
         }
     }
@@ -195,17 +160,9 @@ public class ArrayGame {
         }
     }
 
-    static boolean checkIfOver(String b /*playercoords*/, String c/*trap1*/, String d/*trap2*/, String e/*enemy*/, String f/*chest*/, boolean g/*enemyAlive*/, String h/*enemy1*/, boolean i/*enemyAlive1*/, String j/*chest1*/, int k /*score*/) {
+    static boolean checkIfOver(String b /*playercoords*/, String c/*trap1*/, String d/*trap2*/, String f/*chest*/, String j/*chest1*/, int k /*score*/) {
         if (b.equals(c) || b.equals(d)) {
             System.out.println("You jumped into a trap.");
-            System.out.println("__   __            _                   \n"
-                    + "\\ \\ / /__  _   _  | |    ___  ___  ___ \n"
-                    + " \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n"
-                    + "  | | (_) | |_| | | |__| (_) \\__ \\  __/\n"
-                    + "  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
-            return false;
-        } else if ((b.equals(e) && g) || (b.equals(h) && i)) {
-            System.out.println("You got roughed up by a pirate.");
             System.out.println("__   __            _                   \n"
                     + "\\ \\ / /__  _   _  | |    ___  ___  ___ \n"
                     + " \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n"
@@ -223,6 +180,64 @@ public class ArrayGame {
                     + "\n"
                     + "");
             return false;
+        }
+        return true;
+    }
+    
+    static void checkEnemyTrap(String a, String b) {
+        for (Enemy enemie : enemies) {
+            if (enemie.isAlive) {
+                if (a.equals(enemie.coordinates) || b.equals(enemie.coordinates)) {
+                    enemie.isAlive = false;
+                }
+            }
+        }
+    }
+    
+    static void setCoords() {
+        playercoords = player.x + "," + player.y;
+        trap1 = trapx + "," + trapy;
+        trap2 = trap1x + "," + trap1y;
+        chest = cx + "," + cy;
+        chest1 = cx1 + "," + cy1;
+        for (Enemy enemie : enemies) {
+            if (enemie.isAlive) {
+                enemie.coordinates = enemie.x + "," + enemie.y;
+            }
+        }
+    }
+    
+    static void moveEnemy() {
+        for (Enemy enemie : enemies) {
+            if (enemie.isAlive) {
+                map[enemie.x][enemie.y] = '.';
+            if (enemie.x < player.x) {
+                enemie.x += 1;
+            } else if (enemie.x > player.x) {
+                enemie.x -= 1;
+            }
+            if (enemie.y < player.y) {
+                enemie.y += 1;
+            } else if (enemie.y > player.y) {
+                enemie.y -= 1;
+            }
+            }
+        }
+    }
+    
+    static boolean checkEnemy(String a) {
+        for (Enemy enemie : enemies) {
+            if (enemie.isAlive) {
+                if (a.equals(enemie.coordinates)) {
+                    System.out.println("You got roughed up by a pirate.");
+                    System.out.println("__   __            _                   \n"
+                                    + "\\ \\ / /__  _   _  | |    ___  ___  ___ \n"
+                                    + " \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n"
+                                    + "  | | (_) | |_| | | |__| (_) \\__ \\  __/\n"
+                                    + "  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
+                    return false;
+                }
+            }
         }
         return true;
     }
