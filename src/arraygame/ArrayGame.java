@@ -6,11 +6,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ArrayGame {
-
+    
     public static void main(String[] args) {
         go();
     }
-
+    
     static Random rand1 = new Random();
     static Player player;
     static Enemy e1, e2;
@@ -32,36 +32,94 @@ public class ArrayGame {
     static int trap1y;
     static char[][] map = new char[41][41];
     static Scanner scan = new Scanner(System.in);
-
-    static void game() {
+    static String ans;
+    static boolean playagain;
+    static boolean level1Pass;
+    static String nothing;
+    
+    static void level1() {
         System.out.println("\n\n\n\n");
-
+        clearMap();
         player = new Player("Hero", 20, 20, '@', 0, 100, 1);
         randomize();
         play = true;
         while (play) {
-
+            
             assignSymbols();
-
+            
             drawMap();
-
+            
             movePlayer();
-
+            
             moveEnemy();
-
+            
             moveBossEnemy();
-
+            
             setCoords();
-
+            
             checkEnemyTrap();
-
+            
             checkBossEnemyTrap();
-
+            
             checkPlayerChest();
-
+            
             playerLevelCheck();
-
+            
             System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (play) {
+                play = checkIfOver(playercoords, trap1, trap2);
+            }
+            if (play) {
+                play = checkEnemy(playercoords);
+                if (play) {
+                    play = checkBossEnemy(playercoords);
+                    
+                }
+            }
+            level1Pass = checkIfMovingOn(playercoords, trap1, trap2);
+            clearMap();
+        }
+    }
+    
+    static void level2() {
+        System.out.println("\n\n\n\n");
+        
+        player = new Player("Hero", 20, 20, '@', 0, 100, 1);
+        randomize();
+        play = true;
+        while (play) {
+            
+            assignSymbols();
+            
+            drawMap();
+            
+            movePlayer();
+            
+            moveEnemy();
+            
+            moveBossEnemy();
+            
+            setCoords();
+            
+            checkEnemyTrap();
+            
+            checkBossEnemyTrap();
+            
+            checkPlayerChest();
+            
+            playerLevelCheck();
+            
+            System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if (play) {
                 play = checkIfOver(playercoords, trap1, trap2);
             }
@@ -73,11 +131,9 @@ public class ArrayGame {
             }
         }
     }
-
+    
     static void go() {
-        Scanner scan1 = new Scanner(System.in);
-        boolean playagain = true;
-        String ans;
+        playagain = true;
         System.out.println("Here is a game I like to call Array Evade. \n Basically, You are being chased around by pirates (noted by P) who are out "
                 + "for \n your head. However, if you get to all of the treasure (T) before they get you, you \n will win. You might also want to watch out for traps (*)");
         try {
@@ -87,21 +143,18 @@ public class ArrayGame {
         }
         while (playagain) {
             //System.out.println("me");
-            game();
-            //System.out.println("other me");
-            System.out.println("\n\n\n\n Would you like to play again?");
-            ans = scan1.next().toLowerCase();
-            if (ans.contains("y")) {
-                System.out.println("Good Luck");
-                playagain = true;
-            } else {
-                playagain = false;
+            level1();
+            if (level1Pass) {
+                System.out.println("over here");
+                level2();
             }
+            //System.out.println("other me");
+            playAgain();
         }
     }
-
+    
     static boolean checkIfOver(String b /*playercoords*/, String c/*trap1*/, String d/*trap2*/) {
-        if (b.equals(c) || b.equals(d)) {
+        if ((b.equals(c)) || (b.equals(d))) {
             System.out.println("You jumped into a trap.");
             System.out.println("__   __            _                   \n"
                     + "\\ \\ / /__  _   _  | |    ___  ___  ___ \n"
@@ -123,21 +176,36 @@ public class ArrayGame {
         }
         return true;
     }
-
+    
+    static boolean checkIfMovingOn(String b, String c, String d) {
+        if ((b.equals(c)) || (b.equals(d))) {
+            System.out.println("You jumped into a trap.");
+            System.out.println("__   __            _                   \n"
+                    + "\\ \\ / /__  _   _  | |    ___  ___  ___ \n"
+                    + " \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n"
+                    + "  | | (_) | |_| | | |__| (_) \\__ \\  __/\n"
+                    + "  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
+            return false;
+        } else if (player.score >= 100) {
+            System.out.println("Press any Key to go on to the second level.");
+            nothing = scan.next();
+            return true;
+        }
+        return false;
+    }
+    
     static void checkEnemyTrap() {
         for (Enemy enemie : enemies) {
-            for (Treasure chestthing : chests) {
-                String c = chestthing.coordinates;
-                if (enemie.isAlive) {
-                    if (c.equals(enemie.coordinates)) {
-                        enemie.isAlive = false;
-                        player.score += 10;
-                    }
+            if (enemie.isAlive) {
+                if (trap1.equals(enemie.coordinates) || trap2.equals(enemie.coordinates)) {
+                    enemie.isAlive = false;
+                    player.score += 10;
                 }
+                
             }
         }
     }
-
+    
     static void checkBossEnemyTrap() {
         for (BossEnemy bossenemie : bossenemies) {
             for (Treasure chestthing : chests) {
@@ -150,13 +218,13 @@ public class ArrayGame {
                         } else {
                             bossenemie.health -= 50;
                         }
-
+                        
                     }
                 }
             }
         }
     }
-
+    
     static void setCoords() {
         playercoords = player.x + "," + player.y;
         trap1 = trapx + "," + trapy;
@@ -177,7 +245,7 @@ public class ArrayGame {
             }
         }
     }
-
+    
     static void moveEnemy() {
         for (Enemy enemie : enemies) {
             if (enemie.isAlive) {
@@ -195,7 +263,7 @@ public class ArrayGame {
             }
         }
     }
-
+    
     static void moveBossEnemy() {
         for (BossEnemy bossenemie : bossenemies) {
             if (bossenemie.isAlive) {
@@ -213,7 +281,7 @@ public class ArrayGame {
             }
         }
     }
-
+    
     static boolean checkEnemy(String a) {
         for (Enemy enemie : enemies) {
             if (enemie.isAlive) {
@@ -230,7 +298,7 @@ public class ArrayGame {
         }
         return true;
     }
-
+    
     static boolean checkBossEnemy(String a) {
         for (BossEnemy bossenemie : bossenemies) {
             if (bossenemie.isAlive) {
@@ -247,7 +315,7 @@ public class ArrayGame {
         }
         return true;
     }
-
+    
     static void randomize() {
         trapx = rand1.nextInt(39) + 1;
         trapy = rand1.nextInt(39) + 1;
@@ -263,7 +331,7 @@ public class ArrayGame {
             chests[i] = new Treasure(rand1.nextInt(39) + 1, rand1.nextInt(39) + 1, true, rand1.nextInt(6) + 30, 'T');
         }
     }
-
+    
     static void checkPlayerChest() {
         for (Treasure chestthing : chests) {
             String a = chestthing.coordinates;
@@ -274,7 +342,7 @@ public class ArrayGame {
             }
         }
     }
-
+    
     static void drawMap() {
         for (int i = 0; i <= map[0].length - 1; i++) {
             for (int j = 0; j <= map[1].length - 1; j++) {
@@ -295,13 +363,12 @@ public class ArrayGame {
             }
         }
     }
-
+    
     static void assignSymbols() {
         map[player.x][player.y] = player.symbol;
         map[trapx][trapy] = '*';
-
         map[trap1x][trap1y] = '*';
-
+        
         for (Enemy enemie : enemies) {
             if (enemie.isAlive) {
                 map[enemie.x][enemie.y] = enemie.symbol;
@@ -318,7 +385,7 @@ public class ArrayGame {
             }
         }
     }
-
+    
     static void playerLevelCheck() {
         if (player.score >= 20) {
             player.level = player.score / 20;
@@ -340,7 +407,7 @@ public class ArrayGame {
         }
         player.speed = player.level;
     }
-
+    
     static void movePlayer() {
         System.out.println("Where do you want to move? (N/E/S/W/NE/NW/SE/SW) Or type Q to quit");
         direction = scan.next();
@@ -363,7 +430,7 @@ public class ArrayGame {
         if (direction.toUpperCase().contains("Q")) {
             play = false;
         }
-
+        
         if (player.x > 39) {
             player.x = 1;
         } else if (player.x < 1) {
@@ -373,6 +440,29 @@ public class ArrayGame {
             player.y = 1;
         } else if (player.y < 1) {
             player.y = 39;
+        }
+    }
+    
+    static void playAgain() {
+        System.out.println("\n\n\n\n Would you like to play again?");
+        ans = scan.next().toLowerCase();
+        if (ans.contains("y")) {
+            System.out.println("Good Luck");
+            playagain = true;
+        } else {
+            playagain = false;
+        }
+    }
+    
+    static void clearMap() {
+        for (int i = 0; i <= map[0].length - 1; i++) {
+            for (int j = 0; j <= map[1].length - 1; j++) {
+                if (i == 0 || j == 0 || i == 40 || j == 40) {
+                    map[i][j] = '#';
+                } else {
+                    map[i][j] = '.';
+                }
+            }
         }
     }
 }
