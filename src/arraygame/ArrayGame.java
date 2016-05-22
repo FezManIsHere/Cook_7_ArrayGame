@@ -34,50 +34,15 @@ public class ArrayGame {
 
     static void game() {
         System.out.println("\n\n\n\n");
-        
+
         Scanner scan = new Scanner(System.in);
-        player = new Player("Hero", 20, 20, '@', 0, 100);
+        player = new Player("Hero", 20, 20, '@', 0, 100, 1);
         randomize();
         play = true;
         while (play) {
-            map[player.x][player.y] = player.symbol;
-            map[trapx][trapy] = '*';
-            
-            map[trap1x][trap1y] = '*';
-            
-            for (Enemy enemie : enemies) {
-                if (enemie.isAlive) {
-                    map[enemie.x][enemie.y] = enemie.symbol;
-                }
-            }
-            for (BossEnemy bossenemie : bossenemies) {
-                if (bossenemie.isAlive) {
-                    map[bossenemie.x][bossenemie.y] = bossenemie.symbol;
-                }
-            }
-            for (Treasure chestthing : chests) {
-                if (chestthing.isAlive) {
-                    map[chestthing.x][chestthing.y] = chestthing.symbol;
-                }
-            }
-            for (int i = 0; i <= map[0].length - 1; i++) {
-                for (int j = 0; j <= map[1].length - 1; j++) {
-                    if (i == 0 || j == 0 || i == 40 || j == 40) {
-                        map[i][j] = '#';
-                    }
-                    if (j < map[1].length - 1 /*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
-                        if (map[i][j] != player.symbol && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != '#' && map[i][j] != 'C') {
-                            System.out.print(". ");
-                        } else {
-                            System.out.print(map[i][j] + " ");
-                        }
-                    } else if (map[i][j] != player.symbol && map[i][j] != '#'/*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
-                        System.out.println(".");
-                    } else {
-                        System.out.println(map[i][j] + " ");
-                    }
-                }
-            }
+            assignSymbols();
+            drawMap();
+
             System.out.println("Where do you want to move? (N/E/S/W/NE/NW/SE/SW) Or type Q to quit");
             direction = scan.next();
             if (direction.toUpperCase().contains("N")) {
@@ -117,25 +82,8 @@ public class ArrayGame {
             checkEnemyTrap();
             checkBossEnemyTrap();
             checkPlayerChest();
-            
-            if (player.score >= 20) {
-                player.level = player.score / 20;
-            } else {
-                player.level = 1;
-            }
-            if (player.level == 2) {
-                player.symbol = '%';
-            } else if (player.level == 3) {
-                player.symbol = '$';
-            } else if (player.level == 4) {
-                player.symbol = '^';
-            } else if(player.level == 5) {
-                player.symbol = '+';
-            } else if (player.level >= 6){
-                player.symbol = '!';
-            } else {
-                player.symbol = '@';
-            }
+            playerLevelCheck();
+
             System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
             if (play) {
                 play = checkIfOver(playercoords, trap1, trap2);
@@ -350,4 +298,69 @@ public class ArrayGame {
         }
     }
 
+    static void drawMap() {
+        for (int i = 0; i <= map[0].length - 1; i++) {
+            for (int j = 0; j <= map[1].length - 1; j++) {
+                if (i == 0 || j == 0 || i == 40 || j == 40) {
+                    map[i][j] = '#';
+                }
+                if (j < map[1].length - 1 /*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
+                    if (map[i][j] != player.symbol && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != '#' && map[i][j] != 'C') {
+                        System.out.print(". ");
+                    } else {
+                        System.out.print(map[i][j] + " ");
+                    }
+                } else if (map[i][j] != player.symbol && map[i][j] != '#'/*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
+                    System.out.println(".");
+                } else {
+                    System.out.println(map[i][j] + " ");
+                }
+            }
+        }
+    }
+
+    static void assignSymbols() {
+        map[player.x][player.y] = player.symbol;
+        map[trapx][trapy] = '*';
+
+        map[trap1x][trap1y] = '*';
+
+        for (Enemy enemie : enemies) {
+            if (enemie.isAlive) {
+                map[enemie.x][enemie.y] = enemie.symbol;
+            }
+        }
+        for (BossEnemy bossenemie : bossenemies) {
+            if (bossenemie.isAlive) {
+                map[bossenemie.x][bossenemie.y] = bossenemie.symbol;
+            }
+        }
+        for (Treasure chestthing : chests) {
+            if (chestthing.isAlive) {
+                map[chestthing.x][chestthing.y] = chestthing.symbol;
+            }
+        }
+    }
+
+    static void playerLevelCheck() {
+        if (player.score >= 20) {
+            player.level = player.score / 20;
+        } else {
+            player.level = 1;
+        }
+        if (player.level == 2) {
+            player.symbol = '%';
+        } else if (player.level == 3) {
+            player.symbol = '$';
+        } else if (player.level == 4) {
+            player.symbol = '^';
+        } else if (player.level == 5) {
+            player.symbol = '+';
+        } else if (player.level >= 6) {
+            player.symbol = '!';
+        } else {
+            player.symbol = '@';
+        }
+        player.speed = player.level;
+    }
 }
