@@ -15,11 +15,9 @@ public class ArrayGame {
     static Enemy e1, e2, e3;
     static String direction;
     static boolean play = true;
-    static boolean enemyAlive = true;
-    static boolean enemyAlive1 = true;
     static boolean chestAlive = true;
     static boolean chestAlive1 = true;
-    static String playercoords = player.x + "," + player.y;
+    static String playercoords;
     static String trap1;
     static String trap2;
     static String chest;
@@ -34,20 +32,17 @@ public class ArrayGame {
     static int trap1x = rand1.nextInt(39) + 1;
     static int trap1y = rand1.nextInt(39) + 1;
     static char[][] map = new char[41][41];
-        
-    
+
     static void game() {
         System.out.println("\n\n\n\n");
         Scanner scan = new Scanner(System.in);
         Random rand1 = new Random();
-        player = new Player("Hero",20,20,'@', 0);
-        
-        
+        player = new Player("Hero", 20, 20, '@', 0);
+
         for (int i = 0; i < enemies.length; i++) {
             enemies[i] = new Enemy(true, rand1.nextInt(39) + 1, rand1.nextInt(39) + 1, 'P');
         }
-        
-        
+
         while (play) {
             map[player.x][player.y] = '@';
             map[trapx][trapy] = '*';
@@ -103,23 +98,23 @@ public class ArrayGame {
                 play = false;
             }
 
-            if (player.x > 19) {
+            if (player.x > 39) {
                 player.x = 1;
             } else if (player.x < 1) {
-                player.x = 19;
+                player.x = 39;
             }
-            if (player.y > 19) {
+            if (player.y > 39) {
                 player.y = 1;
             } else if (player.y < 1) {
-                player.y = 19;
+                player.y = 39;
             }
 
             moveEnemy();
 
             setCoords();
-            
-            checkEnemyTrap(trap1,trap2);
-            
+
+            checkEnemyTrap(trap1, trap2);
+
             if (playercoords.equals(chest) && chestAlive) {
                 player.score += 10;
                 chestAlive = false;
@@ -128,9 +123,14 @@ public class ArrayGame {
                 player.score += 10;
                 chestAlive1 = false;
             }
-            System.out.println("Score = " + player.score);
+            if (player.score >= 20) {
+                player.level = player.score / 20;
+            } else {
+                player.level = 1;
+            }
+            System.out.println("Score = " + player.score + "\n Level = " + player.level);
             if (play) {
-            play = checkIfOver(playercoords, trap1, trap2, chest, chest1, player.score);
+                play = checkIfOver(playercoords, trap1, trap2, chest, chest1, player.score);
             }
             if (play) {
                 play = checkEnemy(playercoords);
@@ -142,7 +142,8 @@ public class ArrayGame {
         Scanner scan1 = new Scanner(System.in);
         boolean playagain = true;
         String ans;
-        System.out.println("Here is a game I like to call Array Evade. \n Basically, You are being chased around by pirates (noted by P) who are out for \n your head. However, if you get to all of the treasure (T) before they get you, you \n will win. You might also want to watch out for traps (*)");
+        System.out.println("Here is a game I like to call Array Evade. \n Basically, You are being chased around by pirates (noted by P) who are out "
+                + "for \n your head. However, if you get to all of the treasure (T) before they get you, you \n will win. You might also want to watch out for traps (*)");
         try {
             Thread.sleep(10000);
         } catch (InterruptedException ex) {
@@ -152,10 +153,9 @@ public class ArrayGame {
             game();
             System.out.println("\n\n\n\n Would you like to play again?");
             ans = scan1.next().toLowerCase();
-            if (ans.contains("n")) {
-                playagain = false;
-            } else if (!ans.contains("y")) {
+            if (ans.contains("y")) {
                 System.out.println("Good Luck");
+                playagain = true;
             }
         }
     }
@@ -183,17 +183,18 @@ public class ArrayGame {
         }
         return true;
     }
-    
+
     static void checkEnemyTrap(String a, String b) {
         for (Enemy enemie : enemies) {
             if (enemie.isAlive) {
                 if (a.equals(enemie.coordinates) || b.equals(enemie.coordinates)) {
                     enemie.isAlive = false;
+                    player.score += 10;
                 }
             }
         }
     }
-    
+
     static void setCoords() {
         playercoords = player.x + "," + player.y;
         trap1 = trapx + "," + trapy;
@@ -206,35 +207,35 @@ public class ArrayGame {
             }
         }
     }
-    
+
     static void moveEnemy() {
         for (Enemy enemie : enemies) {
             if (enemie.isAlive) {
                 map[enemie.x][enemie.y] = '.';
-            if (enemie.x < player.x) {
-                enemie.x += 1;
-            } else if (enemie.x > player.x) {
-                enemie.x -= 1;
-            }
-            if (enemie.y < player.y) {
-                enemie.y += 1;
-            } else if (enemie.y > player.y) {
-                enemie.y -= 1;
-            }
+                if (enemie.x < player.x) {
+                    enemie.x += 1;
+                } else if (enemie.x > player.x) {
+                    enemie.x -= 1;
+                }
+                if (enemie.y < player.y) {
+                    enemie.y += 1;
+                } else if (enemie.y > player.y) {
+                    enemie.y -= 1;
+                }
             }
         }
     }
-    
+
     static boolean checkEnemy(String a) {
         for (Enemy enemie : enemies) {
             if (enemie.isAlive) {
                 if (a.equals(enemie.coordinates)) {
                     System.out.println("You got roughed up by a pirate.");
                     System.out.println("__   __            _                   \n"
-                                    + "\\ \\ / /__  _   _  | |    ___  ___  ___ \n"
-                                    + " \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n"
-                                    + "  | | (_) | |_| | | |__| (_) \\__ \\  __/\n"
-                                    + "  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
+                            + "\\ \\ / /__  _   _  | |    ___  ___  ___ \n"
+                            + " \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n"
+                            + "  | | (_) | |_| | | |__| (_) \\__ \\  __/\n"
+                            + "  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
                     return false;
                 }
             }
