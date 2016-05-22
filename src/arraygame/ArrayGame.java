@@ -31,57 +31,34 @@ public class ArrayGame {
     static int trap1x;
     static int trap1y;
     static char[][] map = new char[41][41];
+    static Scanner scan = new Scanner(System.in);
 
     static void game() {
         System.out.println("\n\n\n\n");
 
-        Scanner scan = new Scanner(System.in);
         player = new Player("Hero", 20, 20, '@', 0, 100, 1);
         randomize();
         play = true;
         while (play) {
+
             assignSymbols();
+
             drawMap();
 
-            System.out.println("Where do you want to move? (N/E/S/W/NE/NW/SE/SW) Or type Q to quit");
-            direction = scan.next();
-            if (direction.toUpperCase().contains("N")) {
-                map[player.x][player.y] = '.';
-                player.x -= 1;
-            }
-            if (direction.toUpperCase().contains("E")) {
-                map[player.x][player.y] = '.';
-                player.y += 1;
-            }
-            if (direction.toUpperCase().contains("S")) {
-                map[player.x][player.y] = '.';
-                player.x += 1;
-            }
-            if (direction.toUpperCase().contains("W")) {
-                map[player.x][player.y] = '.';
-                player.y -= 1;
-            }
-            if (direction.toUpperCase().contains("Q")) {
-                play = false;
-            }
-
-            if (player.x > 39) {
-                player.x = 1;
-            } else if (player.x < 1) {
-                player.x = 39;
-            }
-            if (player.y > 39) {
-                player.y = 1;
-            } else if (player.y < 1) {
-                player.y = 39;
-            }
+            movePlayer();
 
             moveEnemy();
+
             moveBossEnemy();
+
             setCoords();
+
             checkEnemyTrap();
+
             checkBossEnemyTrap();
+
             checkPlayerChest();
+
             playerLevelCheck();
 
             System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
@@ -362,5 +339,40 @@ public class ArrayGame {
             player.symbol = '@';
         }
         player.speed = player.level;
+    }
+
+    static void movePlayer() {
+        System.out.println("Where do you want to move? (N/E/S/W/NE/NW/SE/SW) Or type Q to quit");
+        direction = scan.next();
+        if (direction.toUpperCase().contains("N")) {
+            map[player.x][player.y] = '.';
+            player.x -= 1;
+        }
+        if (direction.toUpperCase().contains("E")) {
+            map[player.x][player.y] = '.';
+            player.y += 1;
+        }
+        if (direction.toUpperCase().contains("S")) {
+            map[player.x][player.y] = '.';
+            player.x += 1;
+        }
+        if (direction.toUpperCase().contains("W")) {
+            map[player.x][player.y] = '.';
+            player.y -= 1;
+        }
+        if (direction.toUpperCase().contains("Q")) {
+            play = false;
+        }
+
+        if (player.x > 39) {
+            player.x = 1;
+        } else if (player.x < 1) {
+            player.x = 39;
+        }
+        if (player.y > 39) {
+            player.y = 1;
+        } else if (player.y < 1) {
+            player.y = 39;
+        }
     }
 }
