@@ -10,11 +10,12 @@ public class ArrayGame {
     public static void main(String[] args) {
         go();
     }
-    
+
     static Random rand1 = new Random();
     static Player player;
     static Enemy e1, e2;
     static BossEnemy be1;
+    static Treasure t1, t2, t3;
     static String direction;
     static boolean play = true;
     static boolean chestAlive = true;
@@ -22,37 +23,28 @@ public class ArrayGame {
     static String playercoords;
     static String trap1;
     static String trap2;
-    static String chest;
-    static String chest1;
     static Enemy[] enemies = {e1, e2};
     static BossEnemy[] bossenemies = {be1};
-    static int cx = rand1.nextInt(39) + 1;
-    static int cy = rand1.nextInt(39) + 1;
-    static int cx1 = rand1.nextInt(39) + 1;
-    static int cy1 = rand1.nextInt(39) + 1;
-    static int trapx = rand1.nextInt(39) + 1;
-    static int trapy = rand1.nextInt(39) + 1;
-    static int trap1x = rand1.nextInt(39) + 1;
-    static int trap1y = rand1.nextInt(39) + 1;
+    static Treasure[] chests = {t1, t2, t3};
+    static int trapx;
+    static int trapy;
+    static int trap1x;
+    static int trap1y;
     static char[][] map = new char[41][41];
 
     static void game() {
         System.out.println("\n\n\n\n");
+        
         Scanner scan = new Scanner(System.in);
-        Random rand1 = new Random();
         player = new Player("Hero", 20, 20, '@', 0, 100);
-
-        for (int i = 0; i < enemies.length; i++) {
-            enemies[i] = new Enemy(true, rand1.nextInt(39) + 1, rand1.nextInt(39) + 1, 'P');
-        }
-        for (int i = 0; i < bossenemies.length; i++) {
-            bossenemies[i] = new BossEnemy(true, rand1.nextInt(39) + 1, rand1.nextInt(39) + 1, 'B', 2, 100);
-        }
+        randomize();
         play = true;
         while (play) {
-            map[player.x][player.y] = '@';
+            map[player.x][player.y] = player.symbol;
             map[trapx][trapy] = '*';
+            
             map[trap1x][trap1y] = '*';
+            
             for (Enemy enemie : enemies) {
                 if (enemie.isAlive) {
                     map[enemie.x][enemie.y] = enemie.symbol;
@@ -63,11 +55,10 @@ public class ArrayGame {
                     map[bossenemie.x][bossenemie.y] = bossenemie.symbol;
                 }
             }
-            if (chestAlive) {
-                map[cx][cy] = 'T';
-            }
-            if (chestAlive1) {
-                map[cx1][cy1] = 'T';
+            for (Treasure chestthing : chests) {
+                if (chestthing.isAlive) {
+                    map[chestthing.x][chestthing.y] = chestthing.symbol;
+                }
             }
             for (int i = 0; i <= map[0].length - 1; i++) {
                 for (int j = 0; j <= map[1].length - 1; j++) {
@@ -75,12 +66,12 @@ public class ArrayGame {
                         map[i][j] = '#';
                     }
                     if (j < map[1].length - 1 /*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
-                        if (map[i][j] != '@' && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != '#' && map[i][j] != 'B') {
+                        if (map[i][j] != player.symbol && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != '#' && map[i][j] != 'C') {
                             System.out.print(". ");
                         } else {
                             System.out.print(map[i][j] + " ");
                         }
-                    } else if (map[i][j] != '@' && map[i][j] != '#'/*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
+                    } else if (map[i][j] != player.symbol && map[i][j] != '#'/*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
                         System.out.println(".");
                     } else {
                         System.out.println(map[i][j] + " ");
@@ -121,31 +112,33 @@ public class ArrayGame {
             }
 
             moveEnemy();
-
             moveBossEnemy();
-
             setCoords();
-
-            checkEnemyTrap(trap1, trap2);
-
-            checkBossEnemyTrap(trap1, trap2);
-
-            if (playercoords.equals(chest) && chestAlive) {
-                player.score += 10;
-                chestAlive = false;
-            }
-            if (playercoords.equals(chest1) && chestAlive1) {
-                player.score += 10;
-                chestAlive1 = false;
-            }
+            checkEnemyTrap();
+            checkBossEnemyTrap();
+            checkPlayerChest();
+            
             if (player.score >= 20) {
                 player.level = player.score / 20;
             } else {
                 player.level = 1;
             }
-            System.out.println("Score = " + player.score + "\n Level = " + player.level);
+            if (player.level == 2) {
+                player.symbol = '%';
+            } else if (player.level == 3) {
+                player.symbol = '$';
+            } else if (player.level == 4) {
+                player.symbol = '^';
+            } else if(player.level == 5) {
+                player.symbol = '+';
+            } else if (player.level >= 6){
+                player.symbol = '!';
+            } else {
+                player.symbol = '@';
+            }
+            System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
             if (play) {
-                play = checkIfOver(playercoords, trap1, trap2, chest, chest1, player.score);
+                play = checkIfOver(playercoords, trap1, trap2);
             }
             if (play) {
                 play = checkEnemy(playercoords);
@@ -168,9 +161,9 @@ public class ArrayGame {
             Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
         }
         while (playagain) {
-            System.out.println("me");
+            //System.out.println("me");
             game();
-            System.out.println("other me");
+            //System.out.println("other me");
             System.out.println("\n\n\n\n Would you like to play again?");
             ans = scan1.next().toLowerCase();
             if (ans.contains("y")) {
@@ -182,7 +175,7 @@ public class ArrayGame {
         }
     }
 
-    static boolean checkIfOver(String b /*playercoords*/, String c/*trap1*/, String d/*trap2*/, String f/*chest*/, String j/*chest1*/, int k /*score*/) {
+    static boolean checkIfOver(String b /*playercoords*/, String c/*trap1*/, String d/*trap2*/) {
         if (b.equals(c) || b.equals(d)) {
             System.out.println("You jumped into a trap.");
             System.out.println("__   __            _                   \n"
@@ -191,7 +184,7 @@ public class ArrayGame {
                     + "  | | (_) | |_| | | |__| (_) \\__ \\  __/\n"
                     + "  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
             return false;
-        } else if (k == 20) {
+        } else if (player.score >= 100) {
             System.out.println("You win. Congratulations!");
             System.out.println("__   __           __        ___       \n"
                     + "\\ \\ / /__  _   _  \\ \\      / (_)_ __  \n"
@@ -206,28 +199,34 @@ public class ArrayGame {
         return true;
     }
 
-    static void checkEnemyTrap(String a, String b) {
+    static void checkEnemyTrap() {
         for (Enemy enemie : enemies) {
-            if (enemie.isAlive) {
-                if (a.equals(enemie.coordinates) || b.equals(enemie.coordinates)) {
-                    enemie.isAlive = false;
-                    player.score += 10;
+            for (Treasure chestthing : chests) {
+                String c = chestthing.coordinates;
+                if (enemie.isAlive) {
+                    if (c.equals(enemie.coordinates)) {
+                        enemie.isAlive = false;
+                        player.score += 10;
+                    }
                 }
             }
         }
     }
 
-    static void checkBossEnemyTrap(String a, String b) {
+    static void checkBossEnemyTrap() {
         for (BossEnemy bossenemie : bossenemies) {
-            if (bossenemie.isAlive) {
-                if (a.equals(bossenemie.coordinates) || b.equals(bossenemie.coordinates)) {
-                    if (bossenemie.health <= 50) {
-                        bossenemie.isAlive = false;
-                        player.score += 10;
-                    } else {
-                        bossenemie.health -= 50;
-                    }
+            for (Treasure chestthing : chests) {
+                String a = chestthing.coordinates;
+                if (bossenemie.isAlive) {
+                    if (a.equals(bossenemie.coordinates)) {
+                        if (bossenemie.health <= 50) {
+                            bossenemie.isAlive = false;
+                            player.score += 10;
+                        } else {
+                            bossenemie.health -= 50;
+                        }
 
+                    }
                 }
             }
         }
@@ -237,8 +236,6 @@ public class ArrayGame {
         playercoords = player.x + "," + player.y;
         trap1 = trapx + "," + trapy;
         trap2 = trap1x + "," + trap1y;
-        chest = cx + "," + cy;
-        chest1 = cx1 + "," + cy1;
         for (Enemy enemie : enemies) {
             if (enemie.isAlive) {
                 enemie.coordinates = enemie.x + "," + enemie.y;
@@ -247,6 +244,11 @@ public class ArrayGame {
         for (BossEnemy bossenemie : bossenemies) {
             if (bossenemie.isAlive) {
                 bossenemie.coordinates = bossenemie.x + "," + bossenemie.y;
+            }
+        }
+        for (Treasure chestthing : chests) {
+            if (chestthing.isAlive) {
+                chestthing.coordinates = chestthing.x + "," + chestthing.y;
             }
         }
     }
@@ -268,7 +270,7 @@ public class ArrayGame {
             }
         }
     }
-    
+
     static void moveBossEnemy() {
         for (BossEnemy bossenemie : bossenemies) {
             if (bossenemie.isAlive) {
@@ -303,7 +305,7 @@ public class ArrayGame {
         }
         return true;
     }
-    
+
     static boolean checkBossEnemy(String a) {
         for (BossEnemy bossenemie : bossenemies) {
             if (bossenemie.isAlive) {
@@ -319,6 +321,33 @@ public class ArrayGame {
             }
         }
         return true;
+    }
+
+    static void randomize() {
+        trapx = rand1.nextInt(39) + 1;
+        trapy = rand1.nextInt(39) + 1;
+        trap1x = rand1.nextInt(39) + 1;
+        trap1y = rand1.nextInt(39) + 1;
+        for (int i = 0; i < enemies.length; i++) {
+            enemies[i] = new Enemy(true, rand1.nextInt(39) + 1, rand1.nextInt(39) + 1, 'P');
+        }
+        for (int i = 0; i < bossenemies.length; i++) {
+            bossenemies[i] = new BossEnemy(true, rand1.nextInt(39) + 1, rand1.nextInt(39) + 1, 'C', 2, 100);
+        }
+        for (int i = 0; i < chests.length; i++) {
+            chests[i] = new Treasure(rand1.nextInt(39) + 1, rand1.nextInt(39) + 1, true, rand1.nextInt(6) + 30, 'T');
+        }
+    }
+
+    static void checkPlayerChest() {
+        for (Treasure chestthing : chests) {
+            String a = chestthing.coordinates;
+            int b = chestthing.scoreGiven;
+            if (playercoords.equals(a) && chestthing.isAlive) {
+                player.score += b;
+                chestthing.isAlive = false;
+            }
+        }
     }
 
 }
