@@ -15,12 +15,13 @@ public class Player {
 	int level = 1;
 	char symbol;	
 
-	Player(String a, int b, int c, char d, int e) {
+	Player(String a, int b, int c, char d, int e, int f) {
 		this.x = b;
 		this.y = c;
 		this.name = a;
 		this.symbol = d;
                 this.score = e;
+                this.health = f;
 	}
 
     }

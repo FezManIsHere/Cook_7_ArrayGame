@@ -9,19 +9,12 @@ package arraygame;
  *
  * @author Ramborux
  */
-public class BossEnemy {
-
-    int x = 0;
-    int y = 0;
-    int health = 100;
-    boolean isAlive;
-    int experience = 0;
-    char symbol = 'B';
-
-    BossEnemy(boolean a, int b, int c, char d) {
-        this.isAlive = a;
-        this.x = b;
-        this.y = c;
-        this.symbol = d;
+public class BossEnemy extends Enemy{
+    int speed;
+    int health;
+    BossEnemy(boolean a, int b, int c, char d, int e, int f) {
+        super(a, b, c, d);
+        this.speed = e;
+        this.health = f;
     }
 }

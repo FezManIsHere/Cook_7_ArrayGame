@@ -10,9 +10,11 @@ public class ArrayGame {
     public static void main(String[] args) {
         go();
     }
+    
     static Random rand1 = new Random();
     static Player player;
-    static Enemy e1, e2, e3;
+    static Enemy e1, e2;
+    static BossEnemy be1;
     static String direction;
     static boolean play = true;
     static boolean chestAlive = true;
@@ -22,7 +24,8 @@ public class ArrayGame {
     static String trap2;
     static String chest;
     static String chest1;
-    static Enemy[] enemies = {e1, e2, e3};
+    static Enemy[] enemies = {e1, e2};
+    static BossEnemy[] bossenemies = {be1};
     static int cx = rand1.nextInt(39) + 1;
     static int cy = rand1.nextInt(39) + 1;
     static int cx1 = rand1.nextInt(39) + 1;
@@ -37,12 +40,15 @@ public class ArrayGame {
         System.out.println("\n\n\n\n");
         Scanner scan = new Scanner(System.in);
         Random rand1 = new Random();
-        player = new Player("Hero", 20, 20, '@', 0);
+        player = new Player("Hero", 20, 20, '@', 0, 100);
 
         for (int i = 0; i < enemies.length; i++) {
             enemies[i] = new Enemy(true, rand1.nextInt(39) + 1, rand1.nextInt(39) + 1, 'P');
         }
-
+        for (int i = 0; i < bossenemies.length; i++) {
+            bossenemies[i] = new BossEnemy(true, rand1.nextInt(39) + 1, rand1.nextInt(39) + 1, 'B', 2, 100);
+        }
+        play = true;
         while (play) {
             map[player.x][player.y] = '@';
             map[trapx][trapy] = '*';
@@ -50,6 +56,11 @@ public class ArrayGame {
             for (Enemy enemie : enemies) {
                 if (enemie.isAlive) {
                     map[enemie.x][enemie.y] = enemie.symbol;
+                }
+            }
+            for (BossEnemy bossenemie : bossenemies) {
+                if (bossenemie.isAlive) {
+                    map[bossenemie.x][bossenemie.y] = bossenemie.symbol;
                 }
             }
             if (chestAlive) {
@@ -64,7 +75,7 @@ public class ArrayGame {
                         map[i][j] = '#';
                     }
                     if (j < map[1].length - 1 /*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
-                        if (map[i][j] != '@' && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != '#') {
+                        if (map[i][j] != '@' && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != '#' && map[i][j] != 'B') {
                             System.out.print(". ");
                         } else {
                             System.out.print(map[i][j] + " ");
@@ -111,9 +122,13 @@ public class ArrayGame {
 
             moveEnemy();
 
+            moveBossEnemy();
+
             setCoords();
 
             checkEnemyTrap(trap1, trap2);
+
+            checkBossEnemyTrap(trap1, trap2);
 
             if (playercoords.equals(chest) && chestAlive) {
                 player.score += 10;
@@ -134,6 +149,9 @@ public class ArrayGame {
             }
             if (play) {
                 play = checkEnemy(playercoords);
+                if (play) {
+                    play = checkBossEnemy(playercoords);
+                }
             }
         }
     }
@@ -150,12 +168,16 @@ public class ArrayGame {
             Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
         }
         while (playagain) {
+            System.out.println("me");
             game();
+            System.out.println("other me");
             System.out.println("\n\n\n\n Would you like to play again?");
             ans = scan1.next().toLowerCase();
             if (ans.contains("y")) {
                 System.out.println("Good Luck");
                 playagain = true;
+            } else {
+                playagain = false;
             }
         }
     }
@@ -195,6 +217,22 @@ public class ArrayGame {
         }
     }
 
+    static void checkBossEnemyTrap(String a, String b) {
+        for (BossEnemy bossenemie : bossenemies) {
+            if (bossenemie.isAlive) {
+                if (a.equals(bossenemie.coordinates) || b.equals(bossenemie.coordinates)) {
+                    if (bossenemie.health <= 50) {
+                        bossenemie.isAlive = false;
+                        player.score += 10;
+                    } else {
+                        bossenemie.health -= 50;
+                    }
+
+                }
+            }
+        }
+    }
+
     static void setCoords() {
         playercoords = player.x + "," + player.y;
         trap1 = trapx + "," + trapy;
@@ -204,6 +242,11 @@ public class ArrayGame {
         for (Enemy enemie : enemies) {
             if (enemie.isAlive) {
                 enemie.coordinates = enemie.x + "," + enemie.y;
+            }
+        }
+        for (BossEnemy bossenemie : bossenemies) {
+            if (bossenemie.isAlive) {
+                bossenemie.coordinates = bossenemie.x + "," + bossenemie.y;
             }
         }
     }
@@ -225,12 +268,47 @@ public class ArrayGame {
             }
         }
     }
+    
+    static void moveBossEnemy() {
+        for (BossEnemy bossenemie : bossenemies) {
+            if (bossenemie.isAlive) {
+                map[bossenemie.x][bossenemie.y] = '.';
+                if (bossenemie.x < player.x) {
+                    bossenemie.x += bossenemie.speed;
+                } else if (bossenemie.x > player.x) {
+                    bossenemie.x -= bossenemie.speed;
+                }
+                if (bossenemie.y < player.y) {
+                    bossenemie.y += bossenemie.speed;
+                } else if (bossenemie.y > player.y) {
+                    bossenemie.y -= bossenemie.speed;
+                }
+            }
+        }
+    }
 
     static boolean checkEnemy(String a) {
         for (Enemy enemie : enemies) {
             if (enemie.isAlive) {
                 if (a.equals(enemie.coordinates)) {
                     System.out.println("You got roughed up by a pirate.");
+                    System.out.println("__   __            _                   \n"
+                            + "\\ \\ / /__  _   _  | |    ___  ___  ___ \n"
+                            + " \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n"
+                            + "  | | (_) | |_| | | |__| (_) \\__ \\  __/\n"
+                            + "  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    static boolean checkBossEnemy(String a) {
+        for (BossEnemy bossenemie : bossenemies) {
+            if (bossenemie.isAlive) {
+                if (a.equals(bossenemie.coordinates)) {
+                    System.out.println("You got roughed up by a pirate captain.");
                     System.out.println("__   __            _                   \n"
                             + "\\ \\ / /__  _   _  | |    ___  ___  ___ \n"
                             + " \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n"
