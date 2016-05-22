@@ -118,12 +118,6 @@ public class ArrayGame {
 
             playerLevelCheck();
 
-            System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
-            }
             if (play) {
                 play = checkIfOver(playercoords, trap1, trap2);
             }
@@ -165,8 +159,14 @@ public class ArrayGame {
                     + " \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n"
                     + "  | | (_) | |_| | | |__| (_) \\__ \\  __/\n"
                     + "  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
+            System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+            }
             return false;
-        } else if (player.score >= 100) {
+        } else if (player.score >= 100 && level1Pass) {
             System.out.println("You win. Congratulations!");
             System.out.println("__   __           __        ___       \n"
                     + "\\ \\ / /__  _   _  \\ \\      / (_)_ __  \n"
@@ -176,6 +176,7 @@ public class ArrayGame {
                     + "                                      \n"
                     + "\n"
                     + "");
+            returnScore();
             return false;
         }
         return true;
@@ -189,8 +190,20 @@ public class ArrayGame {
                     + " \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n"
                     + "  | | (_) | |_| | | |__| (_) \\__ \\  __/\n"
                     + "  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
+            System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+            }
             return false;
         } else if (player.score >= 100) {
+            System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+            }
             System.out.println("Press any Key to go on to the second level.");
             nothing = scan.next();
             return true;
@@ -204,6 +217,12 @@ public class ArrayGame {
                 if (trap1.equals(enemie.coordinates) || trap2.equals(enemie.coordinates)) {
                     enemie.isAlive = false;
                     player.score += 10;
+                    System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
 
             }
@@ -219,6 +238,12 @@ public class ArrayGame {
                         if (bossenemie.health <= 50) {
                             bossenemie.isAlive = false;
                             player.score += 10;
+                            System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         } else {
                             bossenemie.health -= 50;
                         }
@@ -296,6 +321,12 @@ public class ArrayGame {
                             + " \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n"
                             + "  | | (_) | |_| | | |__| (_) \\__ \\  __/\n"
                             + "  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
+                    System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     return false;
                 }
             }
@@ -313,6 +344,12 @@ public class ArrayGame {
                             + " \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n"
                             + "  | | (_) | |_| | | |__| (_) \\__ \\  __/\n"
                             + "  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
+                    System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     return false;
                 }
             }
@@ -343,6 +380,12 @@ public class ArrayGame {
             if (playercoords.equals(a) && chestthing.isAlive) {
                 player.score += b;
                 chestthing.isAlive = false;
+                System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
@@ -476,6 +519,12 @@ public class ArrayGame {
                 if (trap1.equals(enemie.coordinates) || trap2.equals(enemie.coordinates)) {
                     enemie.isAlive = false;
                     player.score += 10;
+                    System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
 
             }
@@ -491,6 +540,12 @@ public class ArrayGame {
                         if (bossenemie.health <= 50) {
                             bossenemie.isAlive = false;
                             player.score += 10;
+                            System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         } else {
                             bossenemie.health -= 50;
                         }
@@ -547,6 +602,12 @@ public class ArrayGame {
                             + " \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n"
                             + "  | | (_) | |_| | | |__| (_) \\__ \\  __/\n"
                             + "  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
+                    System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     return false;
                 }
             }
@@ -564,6 +625,12 @@ public class ArrayGame {
                             + " \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n"
                             + "  | | (_) | |_| | | |__| (_) \\__ \\  __/\n"
                             + "  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
+                    System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     return false;
                 }
             }
@@ -592,7 +659,7 @@ public class ArrayGame {
             }
         }
     }
-    
+
     static void setCoords2() {
         playercoords = player.x + "," + player.y;
         trap1 = trapx + "," + trapy;
@@ -613,7 +680,7 @@ public class ArrayGame {
             }
         }
     }
-    
+
     static void randomize2() {
         trapx = rand1.nextInt(39) + 1;
         trapy = rand1.nextInt(39) + 1;
@@ -627,6 +694,15 @@ public class ArrayGame {
         }
         for (int i = 0; i < chests.length; i++) {
             chests[i] = new Treasure(rand1.nextInt(39) + 1, rand1.nextInt(39) + 1, true, rand1.nextInt(6) + 30, 'T');
+        }
+    }
+
+    static void returnScore() {
+        System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
