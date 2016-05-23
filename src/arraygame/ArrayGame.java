@@ -18,6 +18,7 @@ public class ArrayGame {
     static Treasure t1, t2, t3;
     static Enemy e3, e4, e5, e6;
     static BossEnemy be2, be3;
+    static Walls w1, w2, w3, w4, w5, w6, w7, w8, w9;
     static String direction;
     static boolean play = true;
     static boolean chestAlive = true;
@@ -30,6 +31,7 @@ public class ArrayGame {
     static BossEnemy[] bossenemies2 = {be2, be3};
     static BossEnemy[] bossenemies = {be1};
     static Treasure[] chests = {t1, t2, t3};
+    static Walls[] walls = {w1, w2, w3, w4, w5, w6, w7, w8, w9};
     static int trapx;
     static int trapy;
     static int trap1x;
@@ -69,12 +71,6 @@ public class ArrayGame {
 
             playerLevelCheck();
 
-            System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
-            }
             if (play) {
                 play = checkIfOver(playercoords, trap1, trap2);
             }
@@ -279,15 +275,21 @@ public class ArrayGame {
         for (Enemy enemie : enemies) {
             if (enemie.isAlive) {
                 map[enemie.x][enemie.y] = '.';
-                if (enemie.x < player.x) {
-                    enemie.x += 1;
-                } else if (enemie.x > player.x) {
-                    enemie.x -= 1;
+                for (Walls wall : walls) {
+                    int a = wall.x;
+                    if (enemie.x < player.x && enemie.x + 1 != a) {
+                        enemie.x += 1;
+                    } else if (enemie.x > player.x && enemie.x - 1 != a) {
+                        enemie.x -= 1;
+                    }
                 }
-                if (enemie.y < player.y) {
-                    enemie.y += 1;
-                } else if (enemie.y > player.y) {
-                    enemie.y -= 1;
+                for (Walls wall : walls) {
+                    int b = wall.y;
+                    if (enemie.y < player.y && enemie.y + 1 != b) {
+                        enemie.y += 1;
+                    } else if (enemie.y > player.y && enemie.y - 1 != b) {
+                        enemie.y -= 1;
+                    }
                 }
             }
         }
@@ -297,15 +299,21 @@ public class ArrayGame {
         for (BossEnemy bossenemie : bossenemies) {
             if (bossenemie.isAlive) {
                 map[bossenemie.x][bossenemie.y] = '.';
-                if (bossenemie.x < player.x) {
-                    bossenemie.x += bossenemie.speed;
-                } else if (bossenemie.x > player.x) {
-                    bossenemie.x -= bossenemie.speed;
+                for (Walls wall : walls) {
+                    int a = wall.x;
+                    if (bossenemie.x < player.x && bossenemie.x + bossenemie.speed != a) {
+                        bossenemie.x += bossenemie.speed;
+                    } else if (bossenemie.x > player.x && bossenemie.x - bossenemie.speed != a) {
+                        bossenemie.x -= bossenemie.speed;
+                    }
                 }
-                if (bossenemie.y < player.y) {
-                    bossenemie.y += bossenemie.speed;
-                } else if (bossenemie.y > player.y) {
-                    bossenemie.y -= bossenemie.speed;
+                for (Walls wall : walls) {
+                    int b = wall.y;
+                    if (bossenemie.y < player.y && bossenemie.y + bossenemie.speed != b) {
+                        bossenemie.y += bossenemie.speed;
+                    } else if (bossenemie.y > player.y && bossenemie.y - bossenemie.speed != b) {
+                        bossenemie.y -= bossenemie.speed;
+                    }
                 }
             }
         }
@@ -371,6 +379,9 @@ public class ArrayGame {
         for (int i = 0; i < chests.length; i++) {
             chests[i] = new Treasure(rand1.nextInt(39) + 1, rand1.nextInt(39) + 1, true, rand1.nextInt(6) + 30, 'T');
         }
+        for (int i = 0; i < walls.length; i++) {
+            walls[i] = new Walls(rand1.nextInt(39) + 1, rand1.nextInt(39) + 1);
+        }
     }
 
     static void checkPlayerChest() {
@@ -397,7 +408,7 @@ public class ArrayGame {
                     map[i][j] = '#';
                 }
                 if (j < map[1].length - 1 /*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
-                    if (map[i][j] != player.symbol && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != '#' && map[i][j] != 'C') {
+                    if (map[i][j] != player.symbol && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != '#' && map[i][j] != 'C' && map[i][j] != 'X') {
                         System.out.print(". ");
                     } else {
                         System.out.print(map[i][j] + " ");
@@ -431,6 +442,9 @@ public class ArrayGame {
                 map[chestthing.x][chestthing.y] = chestthing.symbol;
             }
         }
+        for (Walls wall : walls) {
+            map[wall.x][wall.y] = 'X';
+        }
     }
 
     static void playerLevelCheck() {
@@ -460,19 +474,39 @@ public class ArrayGame {
         direction = scan.next();
         if (direction.toUpperCase().contains("N")) {
             map[player.x][player.y] = '.';
-            player.x -= 1;
+            for (Walls wall : walls) {
+                int a = wall.x;
+                if (player.x - 1 != a){
+                    player.x -= 1;
+                }
+            }
         }
         if (direction.toUpperCase().contains("E")) {
             map[player.x][player.y] = '.';
-            player.y += 1;
+            for (Walls wall : walls) {
+                int b = wall.y;
+                if (player.y + 1 != b) {
+                    player.y += 1;
+                }
+            }
         }
         if (direction.toUpperCase().contains("S")) {
             map[player.x][player.y] = '.';
-            player.x += 1;
+            for (Walls wall : walls) {
+                int a = wall.x;
+                if(player.x + 1 != a) {
+                    player.x += 1;
+                }
+            }
         }
         if (direction.toUpperCase().contains("W")) {
             map[player.x][player.y] = '.';
-            player.y -= 1;
+            for(Walls wall : walls) {
+                int b = wall.y;
+                if(player.y - 1 != b) {
+                    player.y -= 1;
+                }
+            }
         }
         if (direction.toUpperCase().contains("Q")) {
             play = false;
@@ -658,6 +692,9 @@ public class ArrayGame {
                 map[chestthing.x][chestthing.y] = chestthing.symbol;
             }
         }
+        for (Walls wall : walls) {
+            map[wall.x][wall.y] = 'X';
+        }
     }
 
     static void setCoords2() {
@@ -694,6 +731,9 @@ public class ArrayGame {
         }
         for (int i = 0; i < chests.length; i++) {
             chests[i] = new Treasure(rand1.nextInt(39) + 1, rand1.nextInt(39) + 1, true, rand1.nextInt(6) + 30, 'T');
+        }
+        for (int i = 0; i < walls.length; i++) {
+            walls[i] = new Walls(rand1.nextInt(39) + 1, rand1.nextInt(39) + 1);
         }
     }
 
