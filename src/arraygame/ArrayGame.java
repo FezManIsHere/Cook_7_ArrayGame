@@ -275,15 +275,15 @@ public class ArrayGame {
         for (Enemy enemie : enemies) {
             if (enemie.isAlive) {
                 map[enemie.x][enemie.y] = '.';
-                if (enemie.x < player.x && !isThereAWallDown(enemie.x, 1)) {
+                if (enemie.x < player.x && !checkWalls(enemie.x + 1, enemie.y)) {
                     enemie.x += 1;
-                } else if (enemie.x > player.x && !isThereAWallUp(enemie.x, 1)) {
+                } else if (enemie.x > player.x && !checkWalls(enemie.x - 1, enemie.y)) {
                     enemie.x -= 1;
                 }
 
-                if (enemie.y < player.y && !isThereAWallRight(enemie.y, 1)) {
+                if (enemie.y < player.y && !checkWalls(enemie.x, enemie.y + 1)) {
                     enemie.y += 1;
-                } else if (enemie.y > player.y && !isThereAWallLeft(enemie.y, 1)) {
+                } else if (enemie.y > player.y && !checkWalls(enemie.x, enemie.y - 1)) {
                     enemie.y -= 1;
                 }
 
@@ -295,15 +295,15 @@ public class ArrayGame {
         for (BossEnemy bossenemie : bossenemies) {
             if (bossenemie.isAlive) {
                 map[bossenemie.x][bossenemie.y] = '.';
-                if (bossenemie.x < player.x && !isThereAWallDown(bossenemie.x, bossenemie.speed)) {
+                if (bossenemie.x < player.x && !checkWalls(bossenemie.x + bossenemie.speed, bossenemie.y)) {
                     bossenemie.x += bossenemie.speed;
-                } else if (bossenemie.x > player.x && !isThereAWallUp(bossenemie.x, bossenemie.speed)) {
+                } else if (bossenemie.x > player.x && !checkWalls(bossenemie.x - bossenemie.speed, bossenemie.y)) {
                     bossenemie.x -= bossenemie.speed;
 
                 }
-                if (bossenemie.y < player.y && !isThereAWallRight(bossenemie.y, bossenemie.speed)) {
+                if (bossenemie.y < player.y && !checkWalls(bossenemie.x, bossenemie.y + bossenemie.speed)) {
                     bossenemie.y += bossenemie.speed;
-                } else if (bossenemie.y > player.y && !isThereAWallLeft(bossenemie.y, bossenemie.speed)) {
+                } else if (bossenemie.y > player.y && !checkWalls(bossenemie.x, bossenemie.y - bossenemie.speed)) {
                     bossenemie.y -= bossenemie.speed;
 
                 }
@@ -466,28 +466,28 @@ public class ArrayGame {
         direction = scan.next();
         if (direction.toUpperCase().contains("N")) {
             map[player.x][player.y] = '.';
-            if (!isThereAWallUp(player.x, 1)) {
+            if (!checkWalls(player.x - 1, player.y)) {
                 player.x -= 1;
             }
 
         }
         if (direction.toUpperCase().contains("E")) {
             map[player.x][player.y] = '.';
-            if (!isThereAWallRight(player.y, 1)) {
+            if (!checkWalls(player.x, player.y + 1)) {
                 player.y += 1;
             }
 
         }
         if (direction.toUpperCase().contains("S")) {
             map[player.x][player.y] = '.';
-            if (!isThereAWallDown(player.x, 1)) {
+            if (!checkWalls(player.x + 1, player.y)) {
                 player.x += 1;
             }
 
         }
         if (direction.toUpperCase().contains("W")) {
             map[player.x][player.y] = '.';
-            if (!isThereAWallLeft(player.y, 1)) {
+            if (!checkWalls(player.x, player.y -1)) {
                 player.y -= 1;
             }
 
@@ -578,14 +578,14 @@ public class ArrayGame {
         for (Enemy enemie : enemies2) {
             if (enemie.isAlive) {
                 map[enemie.x][enemie.y] = '.';
-                if (enemie.x < player.x && !isThereAWallDown(enemie.x, 1)) {
+                if (enemie.x < player.x && !checkWalls(enemie.x + 1, enemie.y)) {
                     enemie.x += 1;
-                } else if (enemie.x > player.x && !isThereAWallUp(enemie.x, 1)) {
+                } else if (enemie.x > player.x && !checkWalls(enemie.x - 1, enemie.y)) {
                     enemie.x -= 1;
                 }
-                if (enemie.y < player.y && !isThereAWallRight(enemie.y, 1)) {
+                if (enemie.y < player.y && !checkWalls(enemie.x, enemie.y + 1)) {
                     enemie.y += 1;
-                } else if (enemie.y > player.y && !isThereAWallLeft(enemie.y, 1)) {
+                } else if (enemie.y > player.y && !checkWalls(enemie.x, enemie.y -1)) {
                     enemie.y -= 1;
                 }
             }
@@ -596,14 +596,14 @@ public class ArrayGame {
         for (BossEnemy bossenemie : bossenemies2) {
             if (bossenemie.isAlive) {
                 map[bossenemie.x][bossenemie.y] = '.';
-                if (bossenemie.x < player.x && !isThereAWallDown(bossenemie.x, bossenemie.speed)) {
+                if (bossenemie.x < player.x && !checkWalls(bossenemie.x + bossenemie.speed, bossenemie.y)) {
                     bossenemie.x += bossenemie.speed;
-                } else if (bossenemie.x > player.x && !isThereAWallUp(bossenemie.x, bossenemie.speed)) {
+                } else if (bossenemie.x > player.x && !checkWalls(bossenemie.x - bossenemie.speed, bossenemie.y)) {
                     bossenemie.x -= bossenemie.speed;
                 }
-                if (bossenemie.y < player.y && !isThereAWallRight(bossenemie.y, bossenemie.speed)) {
+                if (bossenemie.y < player.y && !checkWalls(bossenemie.x, bossenemie.y + bossenemie.speed)) {
                     bossenemie.y += bossenemie.speed;
-                } else if (bossenemie.y > player.y && !isThereAWallLeft(bossenemie.y, bossenemie.speed)) {
+                } else if (bossenemie.y > player.y && !checkWalls(bossenemie.x, bossenemie.y - bossenemie.speed)) {
                     bossenemie.y -= bossenemie.speed;
                 }
             }
@@ -729,44 +729,12 @@ public class ArrayGame {
             Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    static boolean isThereAWallUp(int x, int speed) {
-        for (Walls wall : walls) {
-            int a = wall.x;
-            if (x - speed != a) {
-                return false;
-            }
+    
+    static boolean checkWalls(int a, int b) {
+        if (map[a][b] == 'X') {
+            return true;
         }
-        return true;
+        return false;
     }
 
-    static boolean isThereAWallRight(int y, int speed) {
-        for (Walls wall : walls) {
-            int b = wall.y;
-            if (y + speed != b) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    static boolean isThereAWallDown(int x, int speed) {
-        for (Walls wall : walls) {
-            int a = wall.x;
-            if (x + speed != a) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    static boolean isThereAWallLeft(int y, int speed) {
-        for (Walls wall : walls) {
-            int b = wall.y;
-            if (y - speed != b) {
-                return false;
-            }
-        }
-        return true;
-    }
 }
