@@ -45,6 +45,17 @@ public class ArrayGame {
 
     static void level1() {
         System.out.println("\n\n\n\n");
+        System.out.println(" __       ___________    ____  _______  __          __               __   __    __  .__   __.   _______  __       _______ \n" +
+"|  |     |   ____\\   \\  /   / |   ____||  |        /_ |  _          |  | |  |  |  | |  \\ |  |  /  _____||  |     |   ____|\n" +
+"|  |     |  |__   \\   \\/   /  |  |__   |  |         | | (_)         |  | |  |  |  | |   \\|  | |  |  __  |  |     |  |__   \n" +
+"|  |     |   __|   \\      /   |   __|  |  |         | |       .--.  |  | |  |  |  | |  . `  | |  | |_ | |  |     |   __|  \n" +
+"|  `----.|  |____   \\    /    |  |____ |  `----.    | |  _    |  `--'  | |  `--'  | |  |\\   | |  |__| | |  `----.|  |____ \n" +
+"|_______||_______|   \\__/     |_______||_______|    |_| (_)    \\______/   \\______/  |__| \\__|  \\______| |_______||_______|");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         clearMap();
         player = new Player("Hero", 20, 20, '@', 0, 100, 1);
         randomize();
@@ -53,7 +64,7 @@ public class ArrayGame {
 
             assignSymbols();
 
-            drawMap();
+            drawMap('#');
 
             movePlayer();
 
@@ -88,6 +99,17 @@ public class ArrayGame {
 
     static void level2() {
         System.out.println("\n\n\n\n");
+        System.out.println(" __       ___________    ____  _______  __          ___         .______    _______     ___       ______  __    __ \n" +
+"|  |     |   ____\\   \\  /   / |   ____||  |        |__ \\   _    |   _  \\  |   ____|   /   \\     /      ||  |  |  |\n" +
+"|  |     |  |__   \\   \\/   /  |  |__   |  |           ) | (_)   |  |_)  | |  |__     /  ^  \\   |  ,----'|  |__|  |\n" +
+"|  |     |   __|   \\      /   |   __|  |  |          / /        |   _  <  |   __|   /  /_\\  \\  |  |     |   __   |\n" +
+"|  `----.|  |____   \\    /    |  |____ |  `----.    / /_   _    |  |_)  | |  |____ /  _____  \\ |  `----.|  |  |  |\n" +
+"|_______||_______|   \\__/     |_______||_______|   |____| (_)   |______/  |_______/__/     \\__\\ \\______||__|  |__|");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         clearMap();
         player = new Player("Hero", 20, 20, '@', 0, 100, 1);
         randomize2();
@@ -96,7 +118,7 @@ public class ArrayGame {
 
             assignSymbols2();
 
-            drawMap();
+            drawMap('~');
 
             movePlayer();
 
@@ -128,8 +150,20 @@ public class ArrayGame {
 
     static void go() {
         playagain = true;
-        System.out.println("Here is a game I like to call Array Evade. \n Basically, You are being chased around by pirates (noted by P) who are out "
-                + "for \n your head. However, if you get to all of the treasure (T) before they get you, you \n will win. You might also want to watch out for traps (*)");
+        System.out.println(".______    __  .______          ___   .___________. _______     ___________    ____  ___       _______   _______ \n" +
+"|   _  \\  |  | |   _  \\        /   \\  |           ||   ____|   |   ____\\   \\  /   / /   \\     |       \\ |   ____|\n" +
+"|  |_)  | |  | |  |_)  |      /  ^  \\ `---|  |----`|  |__      |  |__   \\   \\/   / /  ^  \\    |  .--.  ||  |__   \n" +
+"|   ___/  |  | |      /      /  /_\\  \\    |  |     |   __|     |   __|   \\      / /  /_\\  \\   |  |  |  ||   __|  \n" +
+"|  |      |  | |  |\\  \\----./  _____  \\   |  |     |  |____    |  |____   \\    / /  _____  \\  |  '--'  ||  |____ \n" +
+"| _|      |__| | _| `._____/__/     \\__\\  |__|     |_______|   |_______|   \\__/ /__/     \\__\\ |_______/ |_______|");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Here is a game I like to call Array Evade. \n Basically, You are being chased around by pirates (noted by P), and Pirate Captains (C) who are out "
+                + "for \n your head. However, if you get 100 points in both scenarios (jungle and beach) before they get you, you \n will win. You might also want to watch out for traps (*) \n"
+                + "Pirates move once per turn. Captains move twice. Collect treasure chests (T) and trick enemies into traps to get points.");
         try {
             Thread.sleep(10000);
         } catch (InterruptedException ex) {
@@ -139,7 +173,7 @@ public class ArrayGame {
             //System.out.println("me");
             level1();
             if (level1Pass) {
-                System.out.println("over here");
+                //System.out.println("over here");
                 level2();
             }
             //System.out.println("other me");
@@ -393,19 +427,21 @@ public class ArrayGame {
         }
     }
 
-    static void drawMap() {
+    static void drawMap(char a) {
         for (int i = 0; i <= map[0].length - 1; i++) {
             for (int j = 0; j <= map[1].length - 1; j++) {
                 if (i == 0 || j == 0 || i == 40 || j == 40) {
-                    map[i][j] = '#';
+                    map[i][j] = a;
+                } else if(i % 5 == 0 && j % 5 == 0 && map[i][j] != '@') {
+                    map[i][j] = 'X';
                 }
                 if (j < map[1].length - 1 /*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
-                    if (map[i][j] != player.symbol && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != '#' && map[i][j] != 'C' && map[i][j] != 'X') {
+                    if (map[i][j] != player.symbol && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != a && map[i][j] != 'C' && map[i][j] != 'X') {
                         System.out.print(". ");
                     } else {
                         System.out.print(map[i][j] + " ");
                     }
-                } else if (map[i][j] != player.symbol && map[i][j] != '#'/*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
+                } else if (map[i][j] != player.symbol && map[i][j] != a/*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
                     System.out.println(".");
                 } else {
                     System.out.println(map[i][j] + " ");
