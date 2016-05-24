@@ -491,14 +491,14 @@ public class ArrayGame {
                     map[i][j] = 'X';
                 }
                 if (j < map[1].length - 1 /*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
-                    if (map[i][j] != player.symbol && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != a && map[i][j] != 'C' && map[i][j] != 'X') {
+                    if (map[i][j] != player.symbol && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != '#' && map[i][j] != 'C' && map[i][j] != 'X') {
                         System.out.print(". ");
                     } else if (map[i][j] == '#'){
-                        System.out.print(ANSI_GREEN + map[i][i] + ANSI_RESET + " ")
+                        System.out.print(ANSI_GREEN + map[i][i] + ANSI_RESET + " ");
                     }else {
                         System.out.print(map[i][j] + " ");
                     }
-                } else if (map[i][j] != player.symbol && map[i][j] != a/*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
+                } else if (map[i][j] != player.symbol && map[i][j] != '#'/*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
                     System.out.println(".");
                 } else {
                     System.out.println(map[i][j] + " ");
@@ -870,14 +870,14 @@ public class ArrayGame {
                     map[i][j] = 'X';
                 }
                 if (j < map[1].length - 1 /*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
-                    if (map[i][j] != player.symbol && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != a && map[i][j] != 'C' && map[i][j] != 'X') {
+                    if (map[i][j] != player.symbol && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != '~' && map[i][j] != 'C' && map[i][j] != 'X') {
                         System.out.print(". ");
                     } else if (map[i][j] == '~'){
-                        System.out.print(ANSI_YELLOW + map[i][i] + ANSI_RESET + " ")
+                        System.out.print(ANSI_YELLOW + map[i][i] + ANSI_RESET + " ");
                     }else {
                         System.out.print(map[i][j] + " ");
                     }
-                } else if (map[i][j] != player.symbol && map[i][j] != a/*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
+                } else if (map[i][j] != player.symbol && map[i][j] != '~'/*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
                     System.out.println(".");
                 } else {
                     System.out.println(map[i][j] + " ");
