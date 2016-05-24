@@ -49,6 +49,15 @@ public class ArrayGame {
     static int event = rand1.nextInt(10) + 1;
     static int moves = 0;
     static boolean canFreeze = true;
+    public static final String ANSI_RESET = "\u001B[0m"; //Color yayyyyyyyy!!!
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
 
     static void level1() {
         uses = 3;
@@ -473,18 +482,20 @@ public class ArrayGame {
         }
     }
 
-    static void drawMap(char a) {
+    static void drawMap() {
         for (int i = 0; i <= map[0].length - 1; i++) {
             for (int j = 0; j <= map[1].length - 1; j++) {
                 if (i == 0 || j == 0 || i == 40 || j == 40) {
-                    map[i][j] = a;
+                    map[i][j] = '#';
                 } else if (i % 5 == 0 && j % 5 == 0 && map[i][j] != '@') { // This draws walls every 5x5 units, systematically 5 pts
                     map[i][j] = 'X';
                 }
                 if (j < map[1].length - 1 /*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
                     if (map[i][j] != player.symbol && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != a && map[i][j] != 'C' && map[i][j] != 'X') {
                         System.out.print(". ");
-                    } else {
+                    } else if (map[i][j] == '#'){
+                        System.out.print(ANSI_GREEN + map[i][i] + ANSI_RESET + " ")
+                    }else {
                         System.out.print(map[i][j] + " ");
                     }
                 } else if (map[i][j] != player.symbol && map[i][j] != a/*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
@@ -847,6 +858,30 @@ public class ArrayGame {
                 enemyMove = false;
                 System.out.println("Enemies frozen this round");
                 uses -= 1;
+            }
+        }
+    }
+    static void drawMap2() {
+        for (int i = 0; i <= map[0].length - 1; i++) {
+            for (int j = 0; j <= map[1].length - 1; j++) {
+                if (i == 0 || j == 0 || i == 40 || j == 40) {
+                    map[i][j] = '~';
+                } else if (i % 5 == 0 && j % 5 == 0 && map[i][j] != '@') { // This draws walls every 5x5 units, systematically 5 pts
+                    map[i][j] = 'X';
+                }
+                if (j < map[1].length - 1 /*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
+                    if (map[i][j] != player.symbol && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != a && map[i][j] != 'C' && map[i][j] != 'X') {
+                        System.out.print(". ");
+                    } else if (map[i][j] == '~'){
+                        System.out.print(ANSI_YELLOW + map[i][i] + ANSI_RESET + " ")
+                    }else {
+                        System.out.print(map[i][j] + " ");
+                    }
+                } else if (map[i][j] != player.symbol && map[i][j] != a/*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
+                    System.out.println(".");
+                } else {
+                    System.out.println(map[i][j] + " ");
+                }
             }
         }
     }
