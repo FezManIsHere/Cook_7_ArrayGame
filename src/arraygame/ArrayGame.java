@@ -63,12 +63,12 @@ public class ArrayGame {
         uses = 3;
         moves = 0;
         System.out.println("\n\n\n\n");
-        System.out.println(" __       ___________    ____  _______  __          __               __   __    __  .__   __.   _______  __       _______ \n"
-                + "|  |     |   ____\\   \\  /   / |   ____||  |        /_ |  _          |  | |  |  |  | |  \\ |  |  /  _____||  |     |   ____|\n"
-                + "|  |     |  |__   \\   \\/   /  |  |__   |  |         | | (_)         |  | |  |  |  | |   \\|  | |  |  __  |  |     |  |__   \n"
-                + "|  |     |   __|   \\      /   |   __|  |  |         | |       .--.  |  | |  |  |  | |  . `  | |  | |_ | |  |     |   __|  \n"
-                + "|  `----.|  |____   \\    /    |  |____ |  `----.    | |  _    |  `--'  | |  `--'  | |  |\\   | |  |__| | |  `----.|  |____ \n"
-                + "|_______||_______|   \\__/     |_______||_______|    |_| (_)    \\______/   \\______/  |__| \\__|  \\______| |_______||_______|");
+        System.out.println(ANSI_GREEN + " __       ___________    ____  _______  __          __               __   __    __  .__   __.   _______  __       _______ \n"
+                + ANSI_GREEN + "|  |     |   ____\\   \\  /   / |   ____||  |        /_ |  _          |  | |  |  |  | |  \\ |  |  /  _____||  |     |   ____|\n"
+                + ANSI_GREEN + "|  |     |  |__   \\   \\/   /  |  |__   |  |         | | (_)         |  | |  |  |  | |   \\|  | |  |  __  |  |     |  |__   \n"
+                + ANSI_GREEN + "|  |     |   __|   \\      /   |   __|  |  |         | |       .--.  |  | |  |  |  | |  . `  | |  | |_ | |  |     |   __|  \n"
+                + ANSI_GREEN + "|  `----.|  |____   \\    /    |  |____ |  `----.    | |  _    |  `--'  | |  `--'  | |  |\\   | |  |__| | |  `----.|  |____ \n"
+                + ANSI_GREEN + "|_______||_______|   \\__/     |_______||_______|    |_| (_)    \\______/   \\______/  |__| \\__|  \\______| |_______||_______|" + ANSI_RESET);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
@@ -137,12 +137,12 @@ public class ArrayGame {
         uses = 3;
         moves = 0;
         System.out.println("\n\n\n\n");
-        System.out.println(" __       ___________    ____  _______  __          ___         .______    _______     ___       ______  __    __ \n"
-                + "|  |     |   ____\\   \\  /   / |   ____||  |        |__ \\   _    |   _  \\  |   ____|   /   \\     /      ||  |  |  |\n"
-                + "|  |     |  |__   \\   \\/   /  |  |__   |  |           ) | (_)   |  |_)  | |  |__     /  ^  \\   |  ,----'|  |__|  |\n"
-                + "|  |     |   __|   \\      /   |   __|  |  |          / /        |   _  <  |   __|   /  /_\\  \\  |  |     |   __   |\n"
-                + "|  `----.|  |____   \\    /    |  |____ |  `----.    / /_   _    |  |_)  | |  |____ /  _____  \\ |  `----.|  |  |  |\n"
-                + "|_______||_______|   \\__/     |_______||_______|   |____| (_)   |______/  |_______/__/     \\__\\ \\______||__|  |__|");
+        System.out.println( ANSI_YELLOW + " __       ___________    ____  _______  __          ___         .______    _______     ___       ______  __    __ \n"
+                + ANSI_YELLOW + "|  |     |   ____\\   \\  /   / |   ____||  |        |__ \\   _    |   _  \\  |   ____|   /   \\     /      ||  |  |  |\n"
+                + ANSI_YELLOW + "|  |     |  |__   \\   \\/   /  |  |__   |  |           ) | (_)   |  |_)  | |  |__     /  ^  \\   |  ,----'|  |__|  |\n"
+                + ANSI_YELLOW + "|  |     |   __|   \\      /   |   __|  |  |          / /        |   _  <  |   __|   /  /_\\  \\  |  |     |   __   |\n"
+                + ANSI_YELLOW + "|  `----.|  |____   \\    /    |  |____ |  `----.    / /_   _    |  |_)  | |  |____ /  _____  \\ |  `----.|  |  |  |\n"
+                + ANSI_YELLOW + "|_______||_______|   \\__/     |_______||_______|   |____| (_)   |______/  |_______/__/     \\__\\ \\______||__|  |__|" + ANSI_RESET);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
@@ -205,12 +205,12 @@ public class ArrayGame {
 
     static void go() {
         playagain = true;
-        System.out.println(".______    __  .______        ___   .___________. _______     ___________    ____  ___       _______   _______ \n" //This is the start of my story, which has had lots of thought put into it. THere are also multiple sequences of ascii art throughout the game 5 pts
-                + "|   _  \\  |  | |   _  \\      /   \\  |           ||   ____|   |   ____\\   \\  /   / /   \\     |       \\ |   ____|\n"
-                + "|  |_)  | |  | |  |_)  |    /  ^  \\ `---|  |----`|  |__      |  |__   \\   \\/   / /  ^  \\    |  .--.  ||  |__   \n"
-                + "|   ___/  |  | |      /    /  /_\\  \\    |  |     |   __|     |   __|   \\      / /  /_\\  \\   |  |  |  ||   __|  \n"
-                + "|  |      |  | |  |\\  \\--./  _____  \\   |  |     |  |____    |  |____   \\    / /  _____  \\  |  '--'  ||  |____ \n"
-                + "| _|      |__| | _| `.___/__/     \\__\\  |__|     |_______|   |_______|   \\__/ /__/     \\__\\ |_______/ |_______|");
+        System.out.println(ANSI_RED + ".______    __  .______        ___   .___________. _______     ___________    ____  ___       _______   _______ \n" //This is the start of my story, which has had lots of thought put into it. THere are also multiple sequences of ascii art throughout the game 5 pts
+                + ANSI_RED + "|   _  \\  |  | |   _  \\      /   \\  |           ||   ____|   |   ____\\   \\  /   / /   \\     |       \\ |   ____|\n"
+                + ANSI_RED + "|  |_)  | |  | |  |_)  |    /  ^  \\ `---|  |----`|  |__      |  |__   \\   \\/   / /  ^  \\    |  .--.  ||  |__   \n"
+                + ANSI_RED + "|   ___/  |  | |      /    /  /_\\  \\    |  |     |   __|     |   __|   \\      / /  /_\\  \\   |  |  |  ||   __|  \n"
+                + ANSI_RED + "|  |      |  | |  |\\  \\--./  _____  \\   |  |     |  |____    |  |____   \\    / /  _____  \\  |  '--'  ||  |____ \n"
+                + ANSI_RED + "| _|      |__| | _| `.___/__/     \\__\\  |__|     |_______|   |_______|   \\__/ /__/     \\__\\ |_______/ |_______|" + ANSI_RESET);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
@@ -493,9 +493,7 @@ public class ArrayGame {
                 if (j < map[1].length - 1 /*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
                     if (map[i][j] != player.symbol && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != '#' && map[i][j] != 'C' && map[i][j] != 'X') {
                         System.out.print(". ");
-                    } else if (map[i][j] == '#'){
-                        System.out.print(ANSI_GREEN + map[i][i] + ANSI_RESET + " ");
-                    }else {
+                    } else {
                         System.out.print(map[i][j] + " ");
                     }
                 } else if (map[i][j] != player.symbol && map[i][j] != '#'/*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
@@ -555,9 +553,8 @@ public class ArrayGame {
     } //This is my player's level updater. It gives different symbols for each level, each level having a range of points associated with it 10 pts
 
     static void movePlayer() {
-        playerSkill();
 
-        System.out.println("Where do you want to move? (N/E/S/W/NE/NW/SE/SW) Or type Q to quit");
+        System.out.println("Where do you want to move? (N/E/S/W/NE/NW/SE/SW) Q to quit, and F to freeze (" + uses + " freezes left)  (include all letters that apply)");
         direction = scan.next();
         if (direction.toUpperCase().contains("N")) {
             map[player.x][player.y] = '.';
@@ -593,7 +590,9 @@ public class ArrayGame {
         if (direction.toUpperCase().contains("I")) {
             player.score += 100;
         }
-
+        if (direction.toUpperCase().contains("F")) {
+            playerSkill();
+        }
         if (player.x > 39) { //This is special because it makes the player loop through walls, allowing clever wins to games 5 pts
             player.x = 1;
         } else if (player.x < 1) {
@@ -852,15 +851,15 @@ public class ArrayGame {
 
     static void playerSkill() { //This is my player skill that freezes enemies for 1 turn, allowing you to make a quick escape or just get the edge 5 pts
         if (uses >= 1 && canFreeze) {
-            System.out.println("Do you want to freeze the enemies for this turn? You have " + uses + " freezes left.");
-            freeze = scan.next(); 
-            if (freeze.contains("y")) {
-                enemyMove = false;
-                System.out.println("Enemies frozen this round");
-                uses -= 1;
-            }
+            enemyMove = false;
+            System.out.println("Enemies frozen this round");
+            uses -= 1;
+
+        } else {
+            System.out.println("You can't freeze this turn");
         }
     }
+
     static void drawMap2() {
         for (int i = 0; i <= map[0].length - 1; i++) {
             for (int j = 0; j <= map[1].length - 1; j++) {
@@ -872,9 +871,7 @@ public class ArrayGame {
                 if (j < map[1].length - 1 /*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
                     if (map[i][j] != player.symbol && map[i][j] != '*' && map[i][j] != 'P' && map[i][j] != 'T' && map[i][j] != '~' && map[i][j] != 'C' && map[i][j] != 'X') {
                         System.out.print(". ");
-                    } else if (map[i][j] == '~'){
-                        System.out.print(ANSI_YELLOW + map[i][i] + ANSI_RESET + " ");
-                    }else {
+                    } else {
                         System.out.print(map[i][j] + " ");
                     }
                 } else if (map[i][j] != player.symbol && map[i][j] != '~'/*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
