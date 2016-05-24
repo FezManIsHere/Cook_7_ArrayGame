@@ -9,7 +9,7 @@ package arraygame;
  *
  * @author Ramborux
  */
-public class BossEnemy extends Enemy{
+public class BossEnemy extends Enemy{ //Here is both my second enemy class and a sub class that extends enemy. It gives the same values but also health and a different move speed 5 pts and 7 pts
     int speed;
     int health;
     BossEnemy(boolean a, int b, int c, char d, int e, int f) {

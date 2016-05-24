@@ -9,7 +9,7 @@ package arraygame;
  *
  * @author Ramborux
  */
-public class Enemy {
+public class Enemy { //here I have my enemy class with different values I utilize in my main class 5 pts
 
     int x = 0;
     int y = 0;

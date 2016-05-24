@@ -13,7 +13,7 @@ public class Treasure {
     int x;
     int y;
     boolean isAlive;
-    int scoreGiven;
+    int scoreGiven; //This is my treasure class, with an int scoregiven which is applied to a random to give each chest a different point value 5 pts
     char symbol;
     String coordinates;
     Treasure(int a, int b, boolean c, int d, char e) {

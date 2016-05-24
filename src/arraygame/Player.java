@@ -4,7 +4,7 @@ package arraygame;
  *
  * @author Ramborux
  */
-public class Player {
+public class Player {//this is where I made player into an object, from a class constructor with different vairables determined in the main class 10 pts
 
     int x = 0;
 	String name;

@@ -26,8 +26,8 @@ public class ArrayGame {
     static String playercoords;
     static String trap1;
     static String trap2;
-    static Enemy[] enemies = {e1, e2};
-    static Enemy[] enemies2 = {e3, e4, e5, e6};
+    static Enemy[] enemies = {e1, e2}; //this is my array for tracking enemies in my first level 5 pts
+    static Enemy[] enemies2 = {e3, e4, e5, e6}; //This is where I add additional enemies to make my second level harder 5 pts
     static BossEnemy[] bossenemies2 = {be2, be3};
     static BossEnemy[] bossenemies = {be1};
     static Treasure[] chests = {t1, t2, t3};
@@ -46,9 +46,13 @@ public class ArrayGame {
     static boolean enemyMove;
     static String freeze;
     static int uses;
+    static int event = rand1.nextInt(10) + 1;
+    static int moves = 0;
+    static boolean canFreeze = true;
 
     static void level1() {
         uses = 3;
+        moves = 0;
         System.out.println("\n\n\n\n");
         System.out.println(" __       ___________    ____  _______  __          __               __   __    __  .__   __.   _______  __       _______ \n"
                 + "|  |     |   ____\\   \\  /   / |   ____||  |        /_ |  _          |  | |  |  |  | |  \\ |  |  /  _____||  |     |   ____|\n"
@@ -66,6 +70,21 @@ public class ArrayGame {
         randomize();
         play = true;
         while (play) {
+            //System.out.println("me");
+            if (moves == event) {   //I have set up event to be a random number, 1 to 11. If the number of player moves equals the random int, the player cant use the freeze skill. There is also ascii art with it 10 pts
+                System.out.println("It is a hot, hot day.");
+                System.out.println("  _                                                                                                      \n"
+                        + " |_ ._ _   _  _   _     _. |_  o | o _|_       _| o  _  _. |_  |  _   _|   _|_ |_  o  _   _|_     ._ ._  \n"
+                        + " |  | (/_ (/_ /_ (/_   (_| |_) | | |  |_ \\/   (_| | _> (_| |_) | (/_ (_|    |_ | | | _>    |_ |_| |  | | \n"
+                        + "                                         /                                                               ");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                canFreeze = false;
+            }
+            //System.out.println("i");
 
             assignSymbols();
 
@@ -98,6 +117,7 @@ public class ArrayGame {
                 }
             }
             enemyMove = true;
+            canFreeze = true;
             checkIfMovingOn(playercoords, trap1, trap2);
             clearMap();
             level1Pass = valid;
@@ -106,6 +126,7 @@ public class ArrayGame {
 
     static void level2() {
         uses = 3;
+        moves = 0;
         System.out.println("\n\n\n\n");
         System.out.println(" __       ___________    ____  _______  __          ___         .______    _______     ___       ______  __    __ \n"
                 + "|  |     |   ____\\   \\  /   / |   ____||  |        |__ \\   _    |   _  \\  |   ____|   /   \\     /      ||  |  |  |\n"
@@ -123,6 +144,19 @@ public class ArrayGame {
         randomize2();
         play = true;
         while (play) {
+            if (moves == event) {
+                System.out.println("It is a hot, hot day.");
+                System.out.println("  _                                                                                                      \n"
+                        + " |_ ._ _   _  _   _     _. |_  o | o _|_       _| o  _  _. |_  |  _   _|   _|_ |_  o  _   _|_     ._ ._  \n"
+                        + " |  | (/_ (/_ /_ (/_   (_| |_) | | |  |_ \\/   (_| | _> (_| |_) | (/_ (_|    |_ | | | _>    |_ |_| |  | | \n"
+                        + "                                         /                                                               ");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                canFreeze = false;
+            }
 
             assignSymbols2();
 
@@ -154,23 +188,26 @@ public class ArrayGame {
                 }
             }
             enemyMove = true;
+            canFreeze = true;
+            clearMap();
+            level1Pass = valid;
         }
-    }
+    } // This is my second level, making multiple levels possible 10 pts
 
     static void go() {
         playagain = true;
-        System.out.println(".______    __  .______          ___   .___________. _______     ___________    ____  ___       _______   _______ \n"
-                + "|   _  \\  |  | |   _  \\        /   \\  |           ||   ____|   |   ____\\   \\  /   / /   \\     |       \\ |   ____|\n"
-                + "|  |_)  | |  | |  |_)  |      /  ^  \\ `---|  |----`|  |__      |  |__   \\   \\/   / /  ^  \\    |  .--.  ||  |__   \n"
-                + "|   ___/  |  | |      /      /  /_\\  \\    |  |     |   __|     |   __|   \\      / /  /_\\  \\   |  |  |  ||   __|  \n"
-                + "|  |      |  | |  |\\  \\----./  _____  \\   |  |     |  |____    |  |____   \\    / /  _____  \\  |  '--'  ||  |____ \n"
-                + "| _|      |__| | _| `._____/__/     \\__\\  |__|     |_______|   |_______|   \\__/ /__/     \\__\\ |_______/ |_______|");
+        System.out.println(".______    __  .______        ___   .___________. _______     ___________    ____  ___       _______   _______ \n" //This is the start of my story, which has had lots of thought put into it. THere are also multiple sequences of ascii art throughout the game 5 pts
+                + "|   _  \\  |  | |   _  \\      /   \\  |           ||   ____|   |   ____\\   \\  /   / /   \\     |       \\ |   ____|\n"
+                + "|  |_)  | |  | |  |_)  |    /  ^  \\ `---|  |----`|  |__      |  |__   \\   \\/   / /  ^  \\    |  .--.  ||  |__   \n"
+                + "|   ___/  |  | |      /    /  /_\\  \\    |  |     |   __|     |   __|   \\      / /  /_\\  \\   |  |  |  ||   __|  \n"
+                + "|  |      |  | |  |\\  \\--./  _____  \\   |  |     |  |____    |  |____   \\    / /  _____  \\  |  '--'  ||  |____ \n"
+                + "| _|      |__| | _| `.___/__/     \\__\\  |__|     |_______|   |_______|   \\__/ /__/     \\__\\ |_______/ |_______|");
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
             Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Here is a game I like to call Array Evade. \n Basically, You are being chased around by pirates (noted by P), and Pirate Captains (C) who are out "
+        System.out.println("Here is a game I like to call Pirate Evade. \n Basically, You are being chased around by pirates (noted by P), and Pirate Captains (C) who are out "
                 + "for \n your head. However, if you get 100 points in both scenarios (jungle and beach) before they get you, you \n will win. You might also want to watch out for traps (*) \n"
                 + "Pirates move once per turn. Captains move twice. Collect treasure chests (T) and trick enemies into traps to get points.");
         try {
@@ -306,9 +343,9 @@ public class ArrayGame {
         for (Enemy enemie : enemies) {
             if (enemie.isAlive && enemyMove) {
                 map[enemie.x][enemie.y] = '.';
-                if (enemie.x < player.x && !checkWalls(enemie.x + 1, enemie.y)) {
+                if (enemie.x < player.x && !checkWalls(enemie.x + 1, enemie.y)) { //checkWalls makes sure that there aren't walls that the enemies can just go through 5 pts
                     enemie.x += 1;
-                } else if (checkWalls(enemie.x + 1, enemie.y) && !checkWalls(enemie.x + 1, enemie.y + 1)) {
+                } else if (checkWalls(enemie.x + 1, enemie.y) && !checkWalls(enemie.x + 1, enemie.y + 1)) { //This checks to see if the enemy can go around the wall, avoiding it 5 pts
                     enemie.x += 1;
                     enemie.y += 1;
                 } else if (enemie.x > player.x && !checkWalls(enemie.x - 1, enemie.y)) {
@@ -325,7 +362,7 @@ public class ArrayGame {
                     enemie.y += 1;
                 } else if (enemie.y > player.y && !checkWalls(enemie.x, enemie.y - 1)) {
                     enemie.y -= 1;
-                } else if(checkWalls(enemie.x, enemie.y - 1) && !checkWalls (enemie.x + 1, enemie.y - 1)) {
+                } else if (checkWalls(enemie.x, enemie.y - 1) && !checkWalls(enemie.x + 1, enemie.y - 1)) {
                     enemie.x += 1;
                     enemie.y -= 1;
                 }
@@ -441,7 +478,7 @@ public class ArrayGame {
             for (int j = 0; j <= map[1].length - 1; j++) {
                 if (i == 0 || j == 0 || i == 40 || j == 40) {
                     map[i][j] = a;
-                } else if (i % 5 == 0 && j % 5 == 0 && map[i][j] != '@') {
+                } else if (i % 5 == 0 && j % 5 == 0 && map[i][j] != '@') { // This draws walls every 5x5 units, systematically 5 pts
                     map[i][j] = 'X';
                 }
                 if (j < map[1].length - 1 /*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
@@ -504,18 +541,10 @@ public class ArrayGame {
             player.symbol = '@';
         }
         player.speed = player.level;
-    }
+    } //This is my player's level updater. It gives different symbols for each level, each level having a range of points associated with it 10 pts
 
     static void movePlayer() {
-        if (uses >= 1) {
-            System.out.println("Do you want to freeze the enemies for this turn? You have " + uses + " freezes left.");
-            freeze = scan.next();
-            if (freeze.contains("y")) {
-                enemyMove = false;
-                System.out.println("Enemies frozen this round");
-                uses -= 1;
-            }
-        }
+        playerSkill();
 
         System.out.println("Where do you want to move? (N/E/S/W/NE/NW/SE/SW) Or type Q to quit");
         direction = scan.next();
@@ -554,7 +583,7 @@ public class ArrayGame {
             player.score += 100;
         }
 
-        if (player.x > 39) {
+        if (player.x > 39) { //This is special because it makes the player loop through walls, allowing clever wins to games 5 pts
             player.x = 1;
         } else if (player.x < 1) {
             player.x = 39;
@@ -564,6 +593,7 @@ public class ArrayGame {
         } else if (player.y < 1) {
             player.y = 39;
         }
+        moves += 1;
     }
 
     static void playAgain() {
@@ -655,7 +685,7 @@ public class ArrayGame {
                     enemie.y += 1;
                 } else if (enemie.y > player.y && !checkWalls(enemie.x, enemie.y - 1)) {
                     enemie.y -= 1;
-                } else if(checkWalls(enemie.x, enemie.y - 1) && !checkWalls (enemie.x + 1, enemie.y - 1)) {
+                } else if (checkWalls(enemie.x, enemie.y - 1) && !checkWalls(enemie.x + 1, enemie.y - 1)) {
                     enemie.x += 1;
                     enemie.y -= 1;
                 }
@@ -809,4 +839,15 @@ public class ArrayGame {
         return false;
     }
 
+    static void playerSkill() { //This is my player skill that freezes enemies for 1 turn, allowing you to make a quick escape or just get the edge 5 pts
+        if (uses >= 1 && canFreeze) {
+            System.out.println("Do you want to freeze the enemies for this turn? You have " + uses + " freezes left.");
+            freeze = scan.next(); 
+            if (freeze.contains("y")) {
+                enemyMove = false;
+                System.out.println("Enemies frozen this round");
+                uses -= 1;
+            }
+        }
+    }
 }
