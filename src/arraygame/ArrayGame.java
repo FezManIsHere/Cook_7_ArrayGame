@@ -42,15 +42,20 @@ public class ArrayGame {
     static boolean playagain;
     static boolean level1Pass;
     static String nothing;
+    static boolean valid;
+    static boolean enemyMove;
+    static String freeze;
+    static int uses;
 
     static void level1() {
+        uses = 3;
         System.out.println("\n\n\n\n");
-        System.out.println(" __       ___________    ____  _______  __          __               __   __    __  .__   __.   _______  __       _______ \n" +
-"|  |     |   ____\\   \\  /   / |   ____||  |        /_ |  _          |  | |  |  |  | |  \\ |  |  /  _____||  |     |   ____|\n" +
-"|  |     |  |__   \\   \\/   /  |  |__   |  |         | | (_)         |  | |  |  |  | |   \\|  | |  |  __  |  |     |  |__   \n" +
-"|  |     |   __|   \\      /   |   __|  |  |         | |       .--.  |  | |  |  |  | |  . `  | |  | |_ | |  |     |   __|  \n" +
-"|  `----.|  |____   \\    /    |  |____ |  `----.    | |  _    |  `--'  | |  `--'  | |  |\\   | |  |__| | |  `----.|  |____ \n" +
-"|_______||_______|   \\__/     |_______||_______|    |_| (_)    \\______/   \\______/  |__| \\__|  \\______| |_______||_______|");
+        System.out.println(" __       ___________    ____  _______  __          __               __   __    __  .__   __.   _______  __       _______ \n"
+                + "|  |     |   ____\\   \\  /   / |   ____||  |        /_ |  _          |  | |  |  |  | |  \\ |  |  /  _____||  |     |   ____|\n"
+                + "|  |     |  |__   \\   \\/   /  |  |__   |  |         | | (_)         |  | |  |  |  | |   \\|  | |  |  __  |  |     |  |__   \n"
+                + "|  |     |   __|   \\      /   |   __|  |  |         | |       .--.  |  | |  |  |  | |  . `  | |  | |_ | |  |     |   __|  \n"
+                + "|  `----.|  |____   \\    /    |  |____ |  `----.    | |  _    |  `--'  | |  `--'  | |  |\\   | |  |__| | |  `----.|  |____ \n"
+                + "|_______||_______|   \\__/     |_______||_______|    |_| (_)    \\______/   \\______/  |__| \\__|  \\______| |_______||_______|");
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
@@ -92,19 +97,22 @@ public class ArrayGame {
 
                 }
             }
-            level1Pass = checkIfMovingOn(playercoords, trap1, trap2);
+            enemyMove = true;
+            checkIfMovingOn(playercoords, trap1, trap2);
             clearMap();
+            level1Pass = valid;
         }
     }
 
     static void level2() {
+        uses = 3;
         System.out.println("\n\n\n\n");
-        System.out.println(" __       ___________    ____  _______  __          ___         .______    _______     ___       ______  __    __ \n" +
-"|  |     |   ____\\   \\  /   / |   ____||  |        |__ \\   _    |   _  \\  |   ____|   /   \\     /      ||  |  |  |\n" +
-"|  |     |  |__   \\   \\/   /  |  |__   |  |           ) | (_)   |  |_)  | |  |__     /  ^  \\   |  ,----'|  |__|  |\n" +
-"|  |     |   __|   \\      /   |   __|  |  |          / /        |   _  <  |   __|   /  /_\\  \\  |  |     |   __   |\n" +
-"|  `----.|  |____   \\    /    |  |____ |  `----.    / /_   _    |  |_)  | |  |____ /  _____  \\ |  `----.|  |  |  |\n" +
-"|_______||_______|   \\__/     |_______||_______|   |____| (_)   |______/  |_______/__/     \\__\\ \\______||__|  |__|");
+        System.out.println(" __       ___________    ____  _______  __          ___         .______    _______     ___       ______  __    __ \n"
+                + "|  |     |   ____\\   \\  /   / |   ____||  |        |__ \\   _    |   _  \\  |   ____|   /   \\     /      ||  |  |  |\n"
+                + "|  |     |  |__   \\   \\/   /  |  |__   |  |           ) | (_)   |  |_)  | |  |__     /  ^  \\   |  ,----'|  |__|  |\n"
+                + "|  |     |   __|   \\      /   |   __|  |  |          / /        |   _  <  |   __|   /  /_\\  \\  |  |     |   __   |\n"
+                + "|  `----.|  |____   \\    /    |  |____ |  `----.    / /_   _    |  |_)  | |  |____ /  _____  \\ |  `----.|  |  |  |\n"
+                + "|_______||_______|   \\__/     |_______||_______|   |____| (_)   |______/  |_______/__/     \\__\\ \\______||__|  |__|");
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
@@ -145,17 +153,18 @@ public class ArrayGame {
                     play = checkBossEnemy2(playercoords);
                 }
             }
+            enemyMove = true;
         }
     }
 
     static void go() {
         playagain = true;
-        System.out.println(".______    __  .______          ___   .___________. _______     ___________    ____  ___       _______   _______ \n" +
-"|   _  \\  |  | |   _  \\        /   \\  |           ||   ____|   |   ____\\   \\  /   / /   \\     |       \\ |   ____|\n" +
-"|  |_)  | |  | |  |_)  |      /  ^  \\ `---|  |----`|  |__      |  |__   \\   \\/   / /  ^  \\    |  .--.  ||  |__   \n" +
-"|   ___/  |  | |      /      /  /_\\  \\    |  |     |   __|     |   __|   \\      / /  /_\\  \\   |  |  |  ||   __|  \n" +
-"|  |      |  | |  |\\  \\----./  _____  \\   |  |     |  |____    |  |____   \\    / /  _____  \\  |  '--'  ||  |____ \n" +
-"| _|      |__| | _| `._____/__/     \\__\\  |__|     |_______|   |_______|   \\__/ /__/     \\__\\ |_______/ |_______|");
+        System.out.println(".______    __  .______          ___   .___________. _______     ___________    ____  ___       _______   _______ \n"
+                + "|   _  \\  |  | |   _  \\        /   \\  |           ||   ____|   |   ____\\   \\  /   / /   \\     |       \\ |   ____|\n"
+                + "|  |_)  | |  | |  |_)  |      /  ^  \\ `---|  |----`|  |__      |  |__   \\   \\/   / /  ^  \\    |  .--.  ||  |__   \n"
+                + "|   ___/  |  | |      /      /  /_\\  \\    |  |     |   __|     |   __|   \\      / /  /_\\  \\   |  |  |  ||   __|  \n"
+                + "|  |      |  | |  |\\  \\----./  _____  \\   |  |     |  |____    |  |____   \\    / /  _____  \\  |  '--'  ||  |____ \n"
+                + "| _|      |__| | _| `._____/__/     \\__\\  |__|     |_______|   |_______|   \\__/ /__/     \\__\\ |_______/ |_______|");
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
@@ -212,7 +221,8 @@ public class ArrayGame {
         return true;
     }
 
-    static boolean checkIfMovingOn(String b, String c, String d) {
+    static void checkIfMovingOn(String b, String c, String d) {
+        valid = false;
         if ((b.equals(c)) || (b.equals(d))) {
             System.out.println("You jumped into a trap.");
             System.out.println("__   __            _                   \n"
@@ -220,25 +230,12 @@ public class ArrayGame {
                     + " \\ V / _ \\| | | | | |   / _ \\/ __|/ _ \\\n"
                     + "  | | (_) | |_| | | |__| (_) \\__ \\  __/\n"
                     + "  |_|\\___/ \\__,_| |_____\\___/|___/\\___|");
-            System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return false;
+            returnScore();
+            valid = false;
         } else if (player.score >= 100) {
-            System.out.println("Score = " + player.score + "\nLevel = " + player.level + "\nYour Symbol = " + player.symbol);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            System.out.println("Press any Key to go on to the second level.");
-            nothing = scan.next();
-            return true;
+            returnScore();
+            valid = true;
         }
-        return false;
     }
 
     static void checkEnemyTrap() {
@@ -307,17 +304,29 @@ public class ArrayGame {
 
     static void moveEnemy() {
         for (Enemy enemie : enemies) {
-            if (enemie.isAlive) {
+            if (enemie.isAlive && enemyMove) {
                 map[enemie.x][enemie.y] = '.';
                 if (enemie.x < player.x && !checkWalls(enemie.x + 1, enemie.y)) {
                     enemie.x += 1;
+                } else if (checkWalls(enemie.x + 1, enemie.y) && !checkWalls(enemie.x + 1, enemie.y + 1)) {
+                    enemie.x += 1;
+                    enemie.y += 1;
                 } else if (enemie.x > player.x && !checkWalls(enemie.x - 1, enemie.y)) {
                     enemie.x -= 1;
+                } else if (checkWalls(enemie.x - 1, enemie.y) && !checkWalls(enemie.x - 1, enemie.y + 1)) {
+                    enemie.x -= 1;
+                    enemie.y += 1;
                 }
 
                 if (enemie.y < player.y && !checkWalls(enemie.x, enemie.y + 1)) {
                     enemie.y += 1;
+                } else if (checkWalls(enemie.x, enemie.y + 1) && !checkWalls(enemie.x + 1, enemie.y + 1)) {
+                    enemie.x += 1;
+                    enemie.y += 1;
                 } else if (enemie.y > player.y && !checkWalls(enemie.x, enemie.y - 1)) {
+                    enemie.y -= 1;
+                } else if(checkWalls(enemie.x, enemie.y - 1) && !checkWalls (enemie.x + 1, enemie.y - 1)) {
+                    enemie.x += 1;
                     enemie.y -= 1;
                 }
 
@@ -327,7 +336,7 @@ public class ArrayGame {
 
     static void moveBossEnemy() {
         for (BossEnemy bossenemie : bossenemies) {
-            if (bossenemie.isAlive) {
+            if (bossenemie.isAlive && enemyMove) {
                 map[bossenemie.x][bossenemie.y] = '.';
                 if (bossenemie.x < player.x && !checkWalls(bossenemie.x + bossenemie.speed, bossenemie.y)) {
                     bossenemie.x += bossenemie.speed;
@@ -432,7 +441,7 @@ public class ArrayGame {
             for (int j = 0; j <= map[1].length - 1; j++) {
                 if (i == 0 || j == 0 || i == 40 || j == 40) {
                     map[i][j] = a;
-                } else if(i % 5 == 0 && j % 5 == 0 && map[i][j] != '@') {
+                } else if (i % 5 == 0 && j % 5 == 0 && map[i][j] != '@') {
                     map[i][j] = 'X';
                 }
                 if (j < map[1].length - 1 /*&& (j < 10 + player.y || j > player.x - 10) && (i < 10 + player.x || i > player.y - 10)*/) {
@@ -498,6 +507,16 @@ public class ArrayGame {
     }
 
     static void movePlayer() {
+        if (uses >= 1) {
+            System.out.println("Do you want to freeze the enemies for this turn? You have " + uses + " freezes left.");
+            freeze = scan.next();
+            if (freeze.contains("y")) {
+                enemyMove = false;
+                System.out.println("Enemies frozen this round");
+                uses -= 1;
+            }
+        }
+
         System.out.println("Where do you want to move? (N/E/S/W/NE/NW/SE/SW) Or type Q to quit");
         direction = scan.next();
         if (direction.toUpperCase().contains("N")) {
@@ -523,13 +542,16 @@ public class ArrayGame {
         }
         if (direction.toUpperCase().contains("W")) {
             map[player.x][player.y] = '.';
-            if (!checkWalls(player.x, player.y -1)) {
+            if (!checkWalls(player.x, player.y - 1)) {
                 player.y -= 1;
             }
 
         }
         if (direction.toUpperCase().contains("Q")) {
             play = false;
+        }
+        if (direction.toUpperCase().contains("I")) {
+            player.score += 100;
         }
 
         if (player.x > 39) {
@@ -612,25 +634,39 @@ public class ArrayGame {
 
     static void moveEnemy2() {
         for (Enemy enemie : enemies2) {
-            if (enemie.isAlive) {
+            if (enemie.isAlive && enemyMove) {
                 map[enemie.x][enemie.y] = '.';
                 if (enemie.x < player.x && !checkWalls(enemie.x + 1, enemie.y)) {
                     enemie.x += 1;
+                } else if (checkWalls(enemie.x + 1, enemie.y) && !checkWalls(enemie.x + 1, enemie.y + 1)) {
+                    enemie.x += 1;
+                    enemie.y += 1;
                 } else if (enemie.x > player.x && !checkWalls(enemie.x - 1, enemie.y)) {
                     enemie.x -= 1;
+                } else if (checkWalls(enemie.x - 1, enemie.y) && !checkWalls(enemie.x - 1, enemie.y + 1)) {
+                    enemie.x -= 1;
+                    enemie.y += 1;
                 }
+
                 if (enemie.y < player.y && !checkWalls(enemie.x, enemie.y + 1)) {
                     enemie.y += 1;
-                } else if (enemie.y > player.y && !checkWalls(enemie.x, enemie.y -1)) {
+                } else if (checkWalls(enemie.x, enemie.y + 1) && !checkWalls(enemie.x + 1, enemie.y + 1)) {
+                    enemie.x += 1;
+                    enemie.y += 1;
+                } else if (enemie.y > player.y && !checkWalls(enemie.x, enemie.y - 1)) {
+                    enemie.y -= 1;
+                } else if(checkWalls(enemie.x, enemie.y - 1) && !checkWalls (enemie.x + 1, enemie.y - 1)) {
+                    enemie.x += 1;
                     enemie.y -= 1;
                 }
+
             }
         }
     }
 
     static void moveBossEnemy2() {
         for (BossEnemy bossenemie : bossenemies2) {
-            if (bossenemie.isAlive) {
+            if (bossenemie.isAlive && enemyMove) {
                 map[bossenemie.x][bossenemie.y] = '.';
                 if (bossenemie.x < player.x && !checkWalls(bossenemie.x + bossenemie.speed, bossenemie.y)) {
                     bossenemie.x += bossenemie.speed;
@@ -765,7 +801,7 @@ public class ArrayGame {
             Logger.getLogger(ArrayGame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     static boolean checkWalls(int a, int b) {
         if (map[a][b] == 'X') {
             return true;
