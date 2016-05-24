@@ -97,7 +97,7 @@ public class ArrayGame {
 
             assignSymbols();
 
-            drawMap('#');
+            drawMap();
 
             movePlayer();
 
@@ -169,7 +169,7 @@ public class ArrayGame {
 
             assignSymbols2();
 
-            drawMap('~');
+            drawMap2();
 
             movePlayer();
 
